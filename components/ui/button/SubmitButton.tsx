@@ -1,5 +1,6 @@
 import { useFormStatus } from 'react-dom'
 
+// O componente que mostra o botão de submissão do formulário de login
 export function SubmitButton() {
   const { pending } = useFormStatus()
 
@@ -7,7 +8,7 @@ export function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full py-1.5 px-4 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg transition disabled:opacity-50"
+      className="w-full py-1.5 px-4 border hover:text-amber-500 border-stone-900 dark:border-white dark:bg-stone-900 bg-white text-stone-900 dark:text-gray-200 font-semibold rounded-lg transition disabled:opacity-50"
     >
       {pending ? 'A entrar...' : 'Entrar'}
     </button>

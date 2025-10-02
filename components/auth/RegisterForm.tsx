@@ -1,67 +1,74 @@
 'use client'
 
-import { useState } from 'react'
-import { toast } from 'react-toastify'
+import { useState, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
+import { useActionState } from 'react'
+import { registerUser } from '@/lib/auth/authServices'
+import { useAuth } from '@/context/AuthProvider'
+import { SubmitButton } from '../ui/button/SubmitButton'
+import FormContainer from './FormContainer'
+import FormField from './FormField'
+import type { RegisterState } from '@/lib/auth/types'
+import { useAuthFeedback } from '@/hooks/useAuthFeedback'
 
+// Formulário de registo - criação de uma nova conta com email e password
 export default function RegisterForm() {
+  const { refreshAuth } = useAuth()
+  const router = useRouter()
+  const [state, registerAction] = useActionState<RegisterState, FormData>(
+    registerUser,
+    { errors: {}, success: false }
+  )
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  useAuthFeedback(
+    state,
+    'Conta criada com sucesso! Bem-vindo(a)!',
+    '/dashboard',
+    refreshAuth,
+    router
+  )
 
-    const res = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
-
-    if (res.ok) {
-      toast.success('Conta criada com sucesso!')
-      window.location.href = '/login'
-    } else {
-      const { error } = await res.json()
-      toast.error(error || 'Erro ao criar conta.')
-    }
-  }
+  // useCallback evita recriar funções em cada render
+  const handleEmailChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value),
+    []
+  )
+  const handlePasswordChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value),
+    []
+  )
 
   return (
-    <div className="w-full max-w-3xl bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 space-y-4">
-      <h1 className="text-3xl font-bold text-center">Criar Conta</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 w-full">
-        <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
-          <input
-            title="email"
-            type="email"
-            required
+    <main className="flex justify-center px-4 pt-16">
+      <FormContainer title="Criar Conta">
+        <form action={registerAction} className="space-y-4 w-full">
+          <FormField
+            id="email"
+            label="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Palavra-passe
-          </label>
-          <input
-            title="password"
-            type="password"
+            onChange={handleEmailChange}
             required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500"
+            placeholder="user@email.com"
+            errors={state.errors?.email ?? []}
           />
-        </div>
-        <div className="pt-4">
-          <button
-            type="submit"
-            className="w-full py-1.5 px-4 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg transition"
-          >
-            Criar Conta
-          </button>
-        </div>
-      </form>
-    </div>
+          <FormField
+            id="password"
+            label="Palavra-passe"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+            required
+            placeholder="Mínimo 6 caracteres"
+            errors={state.errors?.password ?? []}
+          />
+          <div className="pt-4">
+            <SubmitButton />
+          </div>
+        </form>
+      </FormContainer>
+    </main>
   )
 }

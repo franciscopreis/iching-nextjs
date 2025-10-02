@@ -3,12 +3,13 @@
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import Button from '@/components/ui/button/Button'
+import { useAuth } from '@/context/AuthProvider'
 
 export default function DeleteAccount() {
   const router = useRouter()
+  const { refreshAuth } = useAuth()
 
   const handleDelete = async () => {
-    // Modal de confirmação
     const res = await Swal.fire({
       title: 'Tens a certeza?',
       text: 'Esta ação não pode ser desfeita!',
@@ -17,38 +18,35 @@ export default function DeleteAccount() {
       confirmButtonText: 'Sim, eliminar',
       cancelButtonText: 'Cancelar',
     })
-
     if (!res.isConfirmed) return
 
     try {
-      // Chamada à API para apagar a conta
       const response = await fetch('/api/settings/delete-account', {
         method: 'POST',
-        credentials: 'include', // garante envio do cookie
+        credentials: 'include',
       })
-
       const data = await response.json()
-
       if (!data.success) {
-        throw new Error(data.error || 'Erro desconhecido')
+        Swal.fire('Erro', data.error || 'Erro ao apagar conta', 'error')
+        return
       }
 
-      // Sucesso
       await Swal.fire(
         'Conta eliminada!',
-        'A tua conta foi removida.',
+        'A tua conta foi removida permanentemente.',
         'success'
       )
-
-      // Força atualização do header / Server Components
+      await refreshAuth()
       router.refresh()
-
-      // Redireciona para a homepage
       router.push('/')
-    } catch (err) {
-      Swal.fire('Erro', (err as Error).message, 'error')
+    } catch (err: any) {
+      Swal.fire('Erro', err.message || 'Erro ao apagar conta', 'error')
     }
   }
 
-  return <Button text="Eliminar Conta" type="button" onClick={handleDelete} />
+  return (
+    <div className="flex justify-center p-2">
+      <Button text="Eliminar Conta" type="button" onClick={handleDelete} />
+    </div>
+  )
 }

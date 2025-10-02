@@ -1,13 +1,12 @@
-import ArchiveDisplay from '@/components/features/archive/ArchiveDisplay'
-import Title from '@/components/ui/Title'
+import ArchiveDisplay from '@/components/archive/ArchiveDisplay'
 
+// Página do arquivo
 export default function ArquivoPage() {
   return (
-    <div className="lg:py-2 py-4">
-      <Title title="Arquivo" />
-      <div className="w-full  max-w-3xl space-y-4 items-center justify-center mx-auto">
-        <ArchiveDisplay />
-      </div>
-    </div>
+    <main className="main-dashboard">
+      <h2 className="h2-title">Arquivo</h2>
+
+      <ArchiveDisplay />
+    </main>
   )
 }
