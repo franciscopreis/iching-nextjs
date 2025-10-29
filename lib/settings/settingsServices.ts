@@ -4,6 +4,7 @@ import {
   updatePassword,
   insertContactMessage,
   deleteUser,
+  updateName,
 } from './settingsRepository'
 import {
   validate,
@@ -11,7 +12,12 @@ import {
   hashPassword,
   getUserOrFail,
 } from './settingsHelpers'
-import { emailSchema, passwordSchema, contactSchema } from './settingsSchemas'
+import {
+  emailSchema,
+  passwordSchema,
+  contactSchema,
+  nameSchema,
+} from './settingsSchemas'
 
 // Serviço para mudar email
 export async function changeEmailService(
@@ -53,15 +59,13 @@ export async function sendContactMessageService(
   userId: number,
   email: string,
   subject: string,
-  message: string
+  message: string,
+  topic?: string,
+  sequence?: string
 ) {
-  if (!contactSchema) {
-    throw new Error('contactSchema está undefined')
-  }
-
   validate(contactSchema, { subject, message })
 
-  await insertContactMessage(userId, email, subject, message)
+  await insertContactMessage(userId, email, subject, message, topic)
   return { success: true }
 }
 
@@ -70,5 +74,23 @@ export async function deleteAccountService(userId: number) {
   if (!userId) throw new Error('Não autenticado')
 
   await deleteUser(userId)
+  return { success: true }
+}
+
+/**
+ * Novo serviço: alterar nome
+ * Requer confirmação de password (igual ao comportamento de changeEmailService)
+ */
+export async function changeNameService(
+  userId: number,
+  newName: string,
+  password: string
+) {
+  validate(nameSchema, newName)
+
+  const user = await getUserOrFail(userId)
+  await verifyPassword(password, user.password)
+
+  await updateName(userId, newName)
   return { success: true }
 }
