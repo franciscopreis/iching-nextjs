@@ -81,32 +81,25 @@ export default function SettingsDisplay() {
             </div>
           </div>
 
-          {/* Estado da verificação */}
-          <div className="mt-2 flex flex-col  gap-2 text-sm">
-            <div className="flex items-center gap-1 text-gray-700 dark:text-gray-300 justify-between">
-              <div className="flex gap-1 items-center ">
-                {user?.emailVerified ? (
-                  <>
-                    <Check className="text-green-500 w-4 h-4" />
-                    <span>Verificado</span>
-                  </>
-                ) : (
-                  <>
-                    <X className="text-red-500 w-4 h-4" />
-                    <span>Pendente</span>
-                  </>
-                )}
+          {/* Estado da verificação - linha separada e centrada */}
+          <div className="mt-4 flex flex-col items-center justify-center text-sm">
+            {userId && !user?.emailVerified ? (
+              <div className="flex flex-col items-center gap-3">
+                <ResendVerificationButton
+                  userId={userId}
+                  emailVerified={user.emailVerified}
+                />
+                <div className="flex items-center gap-1 text-red-500 mb-2">
+                  <X className="w-4 h-4" />
+                  <span className="font-medium">Email por verificar</span>
+                </div>
               </div>
-              <div>
-                {/* Botão de reenviar email */}
-                {userId && !user.emailVerified && (
-                  <ResendVerificationButton
-                    userId={userId}
-                    emailVerified={user.emailVerified}
-                  />
-                )}
+            ) : (
+              <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
+                <Check className="w-5 h-5" />
+                <span className="font-medium">Conta verificada</span>
               </div>
-            </div>
+            )}
           </div>
         </div>
 

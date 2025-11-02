@@ -1,9 +1,6 @@
 import Context from '@/components/about/context/IChing'
+import { redirect } from 'next/navigation'
 
 export default function SobrePage() {
-  return (
-    <main className="page-content min-h-[600px]">
-      <Context />
-    </main>
-  )
+  return redirect('/sobre/i-ching')
 }

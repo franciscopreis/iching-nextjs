@@ -1,9 +1,9 @@
 'use client'
 import Image from 'next/image'
 
-import TrigramTable from './TrigramTable'
 import Link from 'next/link'
 import LineTable from './LineTable'
+import TrigramTable from '@/components/about/fundamentals/TrigramTable'
 
 export default function Fundamentals() {
   return (

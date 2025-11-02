@@ -1,7 +1,7 @@
 export default function CoinTable() {
   return (
     <div className="table-wrapper">
-      <p className="table-caption">
+      <p className="table-caption -mb-6">
         As probabilidades dos métodos das moedas levam, previsivelmente, a
         probabilidades uniformes para cada linha.
       </p>

@@ -9,7 +9,7 @@ import {
 
 export const TrigramTable: React.FC = () => (
   <div className="table-wrapper max-w-fit px-2 ">
-    <p className="table-caption w-full caption-top">
+    <p className="table-caption w-full caption-top -mb-5">
       A lista dos 8 trigramas do I Ching, com seus respectivos significados e
       imagens associadas.
     </p>

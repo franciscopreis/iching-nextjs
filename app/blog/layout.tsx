@@ -12,15 +12,19 @@ const tabs = [
   { id: 'metodos', label: 'Métodos', href: '/blog/metodos' },
 ]
 
-export default function SobreLayout({ children }: { children: ReactNode }) {
+export default function BlogLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
 
   return (
-    <LayoutContainer>
-      <NavbarMobileDropdown links={tabs} />
-      <Sidebar links={tabs} activePath={pathname} />
-
-      <div className="flex-1 flex flex-col gap-6 mt-3 md:pt-0">{children}</div>
-    </LayoutContainer>
+    <main className="flex flex-col items-center p-3 max-w-6xl mx-auto">
+      <header className="text-center">
+        <h1 className="text-4xl font-bold my-4 lg:my-6">Blog do I Ching</h1>
+        <p className="max-w-xl">
+          Aqui poderás encontrar alguns conteúdos que poderão ajudar-te a
+          compreender melhor o I Ching.
+        </p>
+      </header>
+      {children}
+    </main>
   )
 }

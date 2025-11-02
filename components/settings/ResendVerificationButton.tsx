@@ -47,14 +47,14 @@ export default function ResendVerificationButton({
   }
 
   return (
-    <div className="flex justify-center mt-4">
+    <div className="flex justify-center mt-4 mx-auto">
       <Button
         text={
           emailVerified
             ? 'Email já verificado'
             : sent
               ? 'Email reenviado'
-              : 'Reenviar email de verificação'
+              : 'Reenviar email'
         }
         type="button"
         onClick={handleClick}

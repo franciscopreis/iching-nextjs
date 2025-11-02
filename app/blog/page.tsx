@@ -1,10 +1,7 @@
-import Context from '@/components/about/context/IChing'
-import Blog from '@/components/blog/Blog'
+import BlogGrid from '@/components/blog/BlogGrid'
+import { getAllPosts, type PostMeta } from '@/lib/blog/posts'
 
-export default function BlogPage() {
-  return (
-    <main className="page-content min-h-[600px]">
-      <Blog />
-    </main>
-  )
+export default async function BlogPage() {
+  const posts: PostMeta[] = await getAllPosts()
+  return <BlogGrid initialPosts={posts} />
 }

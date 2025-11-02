@@ -22,7 +22,7 @@ export default function Project() {
             meus conhecimentos de programação.
           </p>
         </div>
-        <div className="lg:w-1/2 lg:px-10 py-5">
+        <div className="lg:w-1/2 lg:px-10 lg:mt-8 py-5">
           <Image
             src="/images/svg/robe-guy-png.svg"
             width={755}
@@ -35,7 +35,7 @@ export default function Project() {
 
       {/* Segundo bloco: imagem à esquerda, texto à direita */}
       <div className="flex flex-col lg:flex-row-reverse items-center lg:gap-x-6">
-        <div className="lg:w-1/2 space-y-4">
+        <div className="lg:w-1/2 space-y-4 flex flex-col">
           <h2 className="pl-2 h2-title text-left">Abordagem técnica</h2>
           <p className="p-primary">
             Resumidamente usei Next.js 15, Tailwind CSS e SQLite. Inicialmente,
@@ -55,9 +55,10 @@ export default function Project() {
             <li>Acesso a textos para cada hexagrama;</li>
             <li>Formulário de contacto;</li>
             <li>Definições básicas: apagar conta, mudar email e password.</li>
+            <li>Blog simples e informativo para apresentar informações.</li>
           </ul>
         </div>{' '}
-        <div className="lg:w-1/2 lg:px-8">
+        <div className="lg:w-1/2 lg:px-8 flex flex-col mx-auto">
           <Image
             src="/images/svg/bowman.png"
             width={780}

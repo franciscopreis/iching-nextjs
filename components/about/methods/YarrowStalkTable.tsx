@@ -1,7 +1,7 @@
 export default function YarrowStalkTable() {
   return (
     <div className="table-wrapper">
-      <p className="table-caption ">
+      <p className="table-caption -mb-7">
         As probabilidades do método do milefólio são bastante variáveis,
         principalmente no que diz respeito às linhas fixas que são bem mais
         prováveis.
