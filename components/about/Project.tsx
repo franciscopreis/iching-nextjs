@@ -5,10 +5,9 @@ export default function Project() {
   return (
     <section className="px-6 max-w-5xl mx-auto flex flex-col">
       {/* Primeiro bloco: texto à esquerda, imagem à direita */}
-
+      <h2 className="h2-title ">Chinga comigo, baby</h2>
       <div className="flex flex-col lg:flex-row items-center lg:gap-x-0">
         <div className="lg:w-1/2 space-y-4">
-          <h2 className="h2-title lg:mb-5">Chinga comigo, baby</h2>
           <h2 className="pl-2 h2-title text-left mt-0 pt-0">O contexto</h2>
           <p className="p-primary">
             O meu interesse pelo I Ching começou há mais de dez anos, após
@@ -22,7 +21,7 @@ export default function Project() {
             meus conhecimentos de programação.
           </p>
         </div>
-        <div className="lg:w-1/2 lg:px-10 lg:mt-8 py-5">
+        <div className="lg:w-1/2 lg:px-2  py-5">
           <Image
             src="/images/svg/robe-guy-png.svg"
             width={755}
@@ -34,7 +33,7 @@ export default function Project() {
       </div>
 
       {/* Segundo bloco: imagem à esquerda, texto à direita */}
-      <div className="flex flex-col lg:flex-row-reverse items-center lg:gap-x-6">
+      <div className="flex flex-col lg:flex-row-reverse items-center lg:gap-x-5 justify-between">
         <div className="lg:w-1/2 space-y-4 flex flex-col">
           <h2 className="pl-2 h2-title text-left">Abordagem técnica</h2>
           <p className="p-primary">
@@ -58,13 +57,13 @@ export default function Project() {
             <li>Blog simples e informativo para apresentar informações.</li>
           </ul>
         </div>{' '}
-        <div className="lg:w-1/2 lg:px-8 flex flex-col mx-auto">
+        <div className="lg:w-1/2 lg:px-2 flex flex-col mx-auto">
           <Image
-            src="/images/svg/bowman.png"
+            src="/images/new/naked-devil.svg"
             width={780}
             height={1192}
             alt="Diagrama I Ching"
-            className="w-full h-auto dark:invert"
+            className="w-full dark:invert "
           />
         </div>
       </div>

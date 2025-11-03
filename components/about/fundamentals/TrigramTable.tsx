@@ -13,7 +13,7 @@ export const TrigramTable: React.FC = () => (
       A lista dos 8 trigramas do I Ching, com seus respectivos significados e
       imagens associadas.
     </p>
-    <table className="table-base text-xs md:text-sm">
+    <table className="table-base text-xs">
       <thead>
         <tr className="text-center">
           <th className="border  p-2 text-center">Símbolo</th>
@@ -21,7 +21,7 @@ export const TrigramTable: React.FC = () => (
             Nome <br></br>Chinês
           </th>
           <th className="border  p-2 text-center">Nome</th>
-          <th className="border  p-2 text-center ">Atributo</th>
+          <th className="border  p-2 text-center hidden ">Atributo</th>
           <th className="border  p-2 text-center">Imagem</th>
           <th className="border  p-2 text-center hidden">Família</th>
         </tr>
@@ -36,7 +36,7 @@ export const TrigramTable: React.FC = () => (
             <td className="border  p-2 text-center">
               {trigramsNamePortugueseReference[index]}
             </td>
-            <td className="border  p-2 text-center wrap-break-word whitespace-normal">
+            <td className="border  p-2 text-center wrap-break-word whitespace-normal hidden">
               {trigramsAttributePortugueseReference[index]}
             </td>
 

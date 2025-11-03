@@ -31,6 +31,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const initialUser = await getCurrentUser()
+  console.log('🏠 Root Layout - Initial User:', initialUser) // Para debug
 
   return (
     <html

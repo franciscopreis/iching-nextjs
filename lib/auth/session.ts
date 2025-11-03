@@ -4,6 +4,13 @@ import crypto from 'crypto'
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 
+export type CurrentUser = {
+  id: number
+  email: string
+  name: string
+  emailVerified: boolean
+} | null
+
 const SESSION_DURATION = '7d'
 const MAX_AGE = 60 * 60 * 24 * 7 // 7 dias
 
@@ -61,20 +68,40 @@ export async function setSession(token?: string) {
 }
 
 // Obter utilizador atual a partir do cookie
-export async function getCurrentUser() {
-  const store = await cookies()
-  const token = store.get('session')?.value
-  if (!token) return null
+export async function getCurrentUser(): Promise<CurrentUser> {
+  try {
+    const store = await cookies()
+    const token = store.get('session')?.value
 
-  const payload = await decrypt(token)
-  if (!payload || typeof payload.userId !== 'number' || !payload.email)
+    if (!token) {
+      console.log('[getCurrentUser] No session token found')
+      return null
+    }
+
+    const payload = await decrypt(token)
+    if (!payload) {
+      console.log('[getCurrentUser] Token could not be decrypted')
+      return null
+    }
+
+    // Garantir consistência de tipos
+    if (typeof payload.userId !== 'number' || !payload.email || !payload.name) {
+      console.log('[getCurrentUser] Invalid payload', payload)
+      return null
+    }
+
+    const user = {
+      id: payload.userId,
+      email: payload.email,
+      name: payload.name,
+      emailVerified: Boolean(payload.emailVerified),
+    }
+
+    console.log('[getCurrentUser] returning user', user)
+    return user
+  } catch (err) {
+    console.error('[getCurrentUser] Error fetching user', err)
     return null
-
-  return {
-    id: payload.userId,
-    email: payload.email,
-    name: payload.name,
-    emailVerified: payload.emailVerified ?? false, // ✅ agora incluímos o estado da verificação
   }
 }
 

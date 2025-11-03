@@ -4,15 +4,13 @@ import SequentialHexagram from '../exp/SequentialHexagram'
 
 export default function Logo() {
   return (
-    <div className="flex items-center gap-1 font-bold lg:text-xl md:text-lg ">
-      <div className="pb-0.5">
-        <Link href="/">
+    <div className="flex items-center gap-1 font-bold lg:text-xl md:text-lg leading-none">
+      <Link href="/" className="flex items-center">
+        <div className="flex items-center justify-center h-6 w-6 sm:h-7 sm:w-7">
           <SequentialHexagram />
-        </Link>
-      </div>
-      <p>
-        <Link href="/">Eu-Chingo</Link>
-      </p>
+        </div>
+        <span className="ml-1">Eu-Chingo</span>
+      </Link>
     </div>
   )
 }

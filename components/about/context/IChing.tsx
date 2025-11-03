@@ -21,7 +21,7 @@ export default function IChing() {
       title: '',
       imageSrc: '/images/new/flying-bird-2.svg',
       buttonText: 'Explora',
-      href: '#',
+      href: '/blog',
     },
     {
       title: '',

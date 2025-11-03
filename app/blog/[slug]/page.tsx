@@ -77,7 +77,7 @@ export default async function BlogPostPage({ params }: any) {
           <img
             src={meta.image}
             alt={meta.title}
-            className="rounded-xl w-full h-80 lg:h-128 object-contain object-top shadow-sm"
+            className="rounded-xl w-full min-w-0 h-80 lg:h-128 object-contain object-top "
           />
         </div>
       )}

@@ -28,18 +28,34 @@ export function useAuthFeedback(
         return
       }
 
-      const errors = [
-        ...(state.errors?.email ?? []),
-        ...(state.errors?.password ?? []),
-      ]
-      if (errors.length) toast.error(errors.join(' • '))
+      // Extrair erros de forma type-safe
+      const errorMessages: string[] = []
+
+      // Verificar erros de email
+      if (state.errors.email) {
+        errorMessages.push(...state.errors.email)
+      }
+
+      // Verificar erros de password
+      if (state.errors.password) {
+        errorMessages.push(...state.errors.password)
+      }
+
+      // Verificar erros de name (apenas se existir no state)
+      if ('name' in state.errors && state.errors.name) {
+        errorMessages.push(...state.errors.name)
+      }
+
+      if (errorMessages.length) {
+        toast.error(errorMessages.join(' • '))
+      }
     }
 
     handle()
   }, [state, refreshAuth, router, successMessage, redirectUrl])
 }
 
-// Aliases para compatibilidade
+// Aliases permanecem iguais
 export const useLoginFeedback = (
   state: LoginState | null | undefined,
   refreshAuth: () => void | Promise<void>,

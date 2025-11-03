@@ -32,6 +32,13 @@ export default function NavbarLinks({ onLinkClick }: NavbarLinksProps) {
   const pathname = usePathname()
   const { isAuthenticated, refreshAuth } = useAuth()
 
+  console.log(
+    '🔍 NavbarLinks - isAuthenticated:',
+    isAuthenticated,
+    'pathname:',
+    pathname
+  )
+
   // ------------------------
   // Função de Logout
   // ------------------------

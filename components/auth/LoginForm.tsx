@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useActionState, useEffect } from 'react'
 import { loginUser } from '@/lib/auth/authServices'
 import { useAuth } from '@/context/AuthProvider'
@@ -8,9 +7,9 @@ import type { LoginState } from '@/lib/auth/authTypes'
 import { SubmitButton } from '../ui/button/SubmitButton'
 import FormContainer from './FormContainer'
 import FormField from './FormField'
-import { useAuthFeedback } from '@/hooks/useAuthFeedback'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {
   const [state, loginAction] = useActionState<LoginState, FormData>(loginUser, {
@@ -20,41 +19,40 @@ export default function LoginForm() {
   const { refreshAuth } = useAuth()
   const router = useRouter()
 
-  useAuthFeedback(
-    state,
-    'Sessão iniciada com sucesso!',
-    '/dashboard',
-    refreshAuth,
-    router
-  )
-
+  // 🔄 useEffect para lidar com sucesso do login
   useEffect(() => {
-    if (!state.success) return
+    if (state.success) {
+      console.log('✅ Login bem-sucedido - iniciando processo...')
 
-    const redirect = () => router.push('/dashboard')
-    const savedReading = localStorage.getItem('guestReading')
+      const processSuccess = async () => {
+        try {
+          await refreshAuth()
+          await new Promise((resolve) => setTimeout(resolve, 200))
 
-    if (!savedReading) {
-      redirect()
-      return
+          const savedReading = localStorage.getItem('guestReading')
+          if (savedReading) {
+            try {
+              const readingData = JSON.parse(savedReading)
+              await fetch('/api/readings/restore-reading', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(readingData),
+              })
+              localStorage.removeItem('guestReading')
+            } catch (err) {
+              console.error('Erro ao restaurar leitura', err)
+            }
+          }
+
+          router.push('/dashboard')
+        } catch (error) {
+          console.error('❌ Erro no processo de login:', error)
+        }
+      }
+
+      processSuccess()
     }
-
-    const readingData = JSON.parse(savedReading)
-
-    fetch('/api/readings/restore-reading', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(readingData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.success)
-          console.error('Erro ao restaurar leitura', data.error)
-        else localStorage.removeItem('guestReading')
-      })
-      .catch((err) => console.error('Erro ao restaurar leitura', err))
-      .finally(() => redirect())
-  }, [state.success, router])
+  }, [state.success, refreshAuth, router])
 
   return (
     <main className="flex justify-center px-4 pt-16 flex-col">
@@ -62,7 +60,6 @@ export default function LoginForm() {
         <form action={loginAction} className="space-y-4 w-full">
           <div className="flex mx-auto justify-center flex-col">
             <div className="relative w-full max-w-md aspect-6/5 overflow-hidden rounded-lg">
-              {/* Imagem de fundo */}
               <Image
                 src="/images/svg/group.svg"
                 alt="Descrição da imagem"
@@ -70,11 +67,6 @@ export default function LoginForm() {
                 className="object-cover object-[10%_70%] transition duration-300 dark:invert"
                 priority
               />
-
-              {/* Texto sobre a imagem */}
-              {/* <div className="absolute top-8 left-16 flex items-center justify-center bg-transparent text-3xl  font-bold">
-                    Leituras
-                  </div> */}
             </div>
             <p className="p-primary text-center text-base tracking-wide leading-relaxed">
               Não sabes quem somos? <br></br>Vai{' '}

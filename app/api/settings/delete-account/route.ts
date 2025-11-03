@@ -3,17 +3,27 @@ import { decrypt } from '@/lib/auth/session'
 import db from '@/data/db/db'
 import { errorResponse, successResponse } from '@/lib/utils/responses'
 
+import bcrypt from 'bcryptjs'
+
 export async function POST(req: NextRequest) {
   try {
     const cookie = req.cookies.get('session')?.value
     const user = await decrypt(cookie)
-
     if (!user?.userId) return errorResponse('Não autenticado', 401)
 
-    const userId = user.userId
+    const { password } = await req.json()
+    if (!password) return errorResponse('Password obrigatória', 400)
 
-    // 🔹 Async run
-    await db.run('DELETE FROM users WHERE id = ?', [userId])
+    const dbUser = await db.get('SELECT password FROM users WHERE id = ?', [
+      user.userId,
+    ])
+    if (!dbUser) return errorResponse('Utilizador não encontrado', 404)
+
+    const match = await bcrypt.compare(password, dbUser.password)
+    if (!match) return errorResponse('Password incorreta', 403)
+
+    // Se passou, apaga o user
+    await db.run('DELETE FROM users WHERE id = ?', [user.userId])
 
     const res = successResponse({ success: true })
     res.cookies.set({
@@ -24,7 +34,6 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       sameSite: 'lax',
     })
-
     return res
   } catch (err) {
     console.error(err)

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { type PostMeta } from '@/lib/blog/posts'
 
 interface BlogGridProps {
@@ -51,7 +51,7 @@ export default function BlogGrid({ initialPosts }: BlogGridProps) {
       {/* Header: voltar + filtros/ordenacao */}
       <div className="flex flex-wrap justify-between items-center mb-3 gap-2 md:px-5">
         <button
-          onClick={() => router.back()}
+          onClick={() => redirect('/')}
           className="text-sm px-3 py-1 border rounded-lg hover:text-amber-500 transition cursor-pointer"
         >
           ← Voltar

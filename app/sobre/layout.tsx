@@ -2,25 +2,21 @@
 
 import { ReactNode } from 'react'
 import LayoutContainer from '@/components/ui/sidebar/LayoutContainer'
-import Sidebar from '@/components/ui/sidebar/Sidebar'
-import { usePathname } from 'next/navigation'
-import NavbarMobileDropdown from '@/components/ui/sidebar/NavbarMobileDropdown'
+import SidebarWrapper from '@/components/ui/sidebar/SidebarWrapper'
 
-const tabs = [
-  { id: 'iching', label: 'I Ching', href: '/sobre/i-ching' },
-  { id: 'projecto', label: 'Projecto', href: '/sobre/projecto' },
-  { id: 'faq', label: 'FAQ', href: '/sobre/faq' },
+const menuLinks = [
+  { href: '/sobre/i-ching', label: 'I Ching' },
+  { href: '/sobre/projecto', label: 'Projecto' },
+  { href: '/sobre/faq', label: 'FAQ' },
 ]
 
 export default function SobreLayout({ children }: { children: ReactNode }) {
-  const pathname = usePathname()
-
   return (
     <LayoutContainer>
-      <NavbarMobileDropdown links={tabs} />
-      <Sidebar links={tabs} activePath={pathname} />
-
-      <div className="flex-1 flex flex-col gap-6 mt-3 md:pt-0">{children}</div>
+      <SidebarWrapper links={menuLinks} />
+      <div className="flex-1 flex flex-col gap-6 mt-3 md:pt-0 max-w-3xl lg:relative lg:left-13 overflow-hidden">
+        {children}
+      </div>
     </LayoutContainer>
   )
 }

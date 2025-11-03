@@ -54,8 +54,10 @@ export default function DeleteAccount() {
       <SettingsField
         name="confirmPassword"
         type="password"
-        placeholder="Confirmar nova password"
+        placeholder="Confirmar password atual"
         required
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
 
       <Button

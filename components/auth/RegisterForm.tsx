@@ -36,15 +36,25 @@ export default function RegisterForm() {
     router
   )
 
+  // No RegisterForm, substitua o useEffect atual por:
   useEffect(() => {
     if (!state.success) return
 
     const restoreAndRedirect = async () => {
-      await refreshAuth()
+      console.log('🔄 RegisterForm - Starting post-registration process')
 
+      // 1. Primeiro atualiza a autenticação
+      await refreshAuth()
+      console.log('🔄 RegisterForm - Auth refreshed')
+
+      // 2. Pequeno delay para garantir que o contexto foi atualizado
+      await new Promise((resolve) => setTimeout(resolve, 200))
+
+      // 3. Depois faz o restore da leitura (se existir)
       const savedReading = localStorage.getItem('guestReading')
       if (savedReading) {
         try {
+          console.log('🔄 RegisterForm - Restoring guest reading')
           const readingData = JSON.parse(savedReading)
           const res = await fetch('/api/readings/restore-reading', {
             method: 'POST',
@@ -52,14 +62,22 @@ export default function RegisterForm() {
             body: JSON.stringify(readingData),
           })
           const data = await res.json()
-          if (!data.success)
-            console.error('Erro ao restaurar leitura', data.error)
-          else localStorage.removeItem('guestReading')
+          if (!data.success) {
+            console.error(
+              '❌ RegisterForm - Error restoring reading',
+              data.error
+            )
+          } else {
+            localStorage.removeItem('guestReading')
+            console.log('✅ RegisterForm - Reading restored successfully')
+          }
         } catch (err) {
-          console.error('Erro ao restaurar leitura', err)
+          console.error('❌ RegisterForm - Error restoring reading', err)
         }
       }
 
+      // 4. Finalmente redireciona
+      console.log('🔄 RegisterForm - Redirecting to dashboard')
       router.push('/dashboard')
     }
 

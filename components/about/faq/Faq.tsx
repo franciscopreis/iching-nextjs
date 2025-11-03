@@ -85,11 +85,11 @@ export default function Faq() {
           entre 6 e 9, ainda que com probabilidades diferentes. Dos dois, o
           método das moedas é o mais fácil de usar e, por enquanto, é o método
           que suporta as leituras do Eu-Chingo. Planeio num futuro próximo
-          incluir o método dos milefólios (ou o método das moedas modificado)
-          futuramente. De qualquer modo, o método em si, não importa demasiado,
-          mas sim a intenção da pergunta e da interpretação. O objectivo é obter
-          dois hexagramas numa leitura, que podem ser diferentes ou iguais
-          consoantes a mutabilidade das linhas que o formam.
+          incluir o método dos milefólios (ou o método das moedas modificado).
+          De qualquer modo, o método em si, não importa demasiado, mas sim a
+          intenção da pergunta e da interpretação. O objectivo é obter dois
+          hexagramas numa leitura, que podem ser diferentes ou iguais consoantes
+          a mutabilidade das linhas que o formam.
         </>
       ),
     },
@@ -113,7 +113,7 @@ export default function Faq() {
           partidas (yin) ou inteiras (yang), e, fundamentalmente, por dois
           trigramas (figura com três linhas), superior e inferir, que o compõem.
           Existem 64 combinações possíveis e cada uma com o seu significado.{' '}
-          <a href="http://localhost:3001/blog/sessenta_e_quatro_hexagramas_e_a_mudanca">
+          <a href="/blog/sessenta_e_quatro_hexagramas_e_a_mudanca">
             Ver <u>hexagramas</u>.
           </a>
         </>
@@ -215,37 +215,36 @@ export default function Faq() {
   }
 
   return (
-    <section className="">
-      <div className="flex flex-col lg:flex-row  mx-auto w-full">
-        {/* Coluna principal */}
+    <section className="main-split space-y-8">
+      <h2 className="h2-title text-center lg:mb-5">Perguntas e respostas</h2>
 
-        <div className="max-w-100 justify-center items-center mx-auto w-full">
-          <h2 className="h2-title text-center mb-4">Perguntas e respostas</h2>
-          <div className="flex justify-center w-full">
-            <div className="w-full space-y-4 text-left block">
-              {faqs.map((faq, index) => (
-                <AccordionItem
-                  key={index}
-                  title={faq.question}
-                  isOpen={openIndex === index}
-                  onToggle={() => toggleIndex(index)}
-                >
-                  <div className="text-sm leading-relaxed">{faq.answer}</div>
-                </AccordionItem>
-              ))}
-            </div>
+      <div className="flex flex-col lg:flex-row gap-8 max-w-4xl mx-auto">
+        {/* Conteúdo principal */}
+        <div className="flex-1">
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                title={faq.question}
+                isOpen={openIndex === index}
+                onToggle={() => toggleIndex(index)}
+              >
+                <div className="text-sm leading-relaxed p-primary">
+                  {faq.answer}
+                </div>
+              </AccordionItem>
+            ))}
           </div>
         </div>
 
         {/* Imagem lateral */}
-        <div className="w-80 flex mx-auto">
-          <div className="relative w-full h-[650px] mx-auto flex justify-center items-center">
+        <div className="lg:w-80 flex justify-center">
+          <div className="relative w-64 h-96 lg:w-80 lg:h-[500px]">
             <Image
               src="/images/svg/lady-png.svg"
               alt="Ilustração de uma mulher chinesa a segurar um longo vestido e com o cabelo adornado de flores"
-              priority
               fill
-              className="object-contain w-full h-full p-0 hover:scale-105 transform transition-transform duration-300 dark:invert"
+              className="object-contain hover:scale-105 transition-transform duration-300 dark:invert"
             />
           </div>
         </div>
