@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import LayoutContainer from '@/components/ui/layout/LayoutContainer'
 import SidebarWrapper from '@/components/ui/sidebar/SidebarWrapper'
+import { ReadingProvider } from '@/context/ReadingContext'
 
 const menuLinks = [
   { href: '/dashboard/', label: 'Painel' },
@@ -15,9 +16,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     <LayoutContainer>
       {/* Client-only - Este Wrapper foi utilizado de modo a que o layout não tenha de ser 'use client'*/}
       <SidebarWrapper links={menuLinks} />
-      <div className="flex-1 flex flex-col gap-6 mt-3 md:pt-0 max-w-2xl lg:relative lg:left-13 overflow-hidden">
-        {children}
-      </div>
+      <ReadingProvider>
+        <div className="flex-1 flex flex-col gap-6 mt-3 md:pt-0 max-w-2xl lg:relative lg:left-13 overflow-hidden">
+          {children}
+        </div>
+      </ReadingProvider>
     </LayoutContainer>
   )
 }

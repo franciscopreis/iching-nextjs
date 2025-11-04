@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, useEffect, useMemo } from 'react'
 import type { AuthContextType, SafeUser } from '@/lib/auth/authTypes'
-import { getCurrentUser } from '@/lib/auth/session'
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
@@ -13,22 +12,21 @@ const AuthContext = createContext<AuthContextType>({
 
 type AuthProviderProps = {
   children: React.ReactNode
-  initialUser?: SafeUser | null
 }
 
-export function AuthProvider({
-  children,
-  initialUser = null,
-}: AuthProviderProps) {
-  const [user, setUser] = useState<SafeUser | null>(initialUser)
-  const [isAuthenticated, setIsAuthenticated] = useState(!!initialUser)
-  const [loading, setLoading] = useState(!initialUser)
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<SafeUser | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const refreshAuth = async () => {
     setLoading(true)
     try {
-      const currentUser = await getCurrentUser()
-      if (currentUser) {
+      // Chama uma API route no cliente
+      const response = await fetch('/api/auth/me')
+
+      if (response.ok) {
+        const currentUser = await response.json()
         setUser(currentUser)
         setIsAuthenticated(true)
       } else {
@@ -45,10 +43,9 @@ export function AuthProvider({
   }
 
   useEffect(() => {
-    if (!user) refreshAuth()
+    refreshAuth()
   }, [])
 
-  // Memoiza o contexto para evitar re-renders desnecessários
   const contextValue = useMemo(
     () => ({ isAuthenticated, user, loading, refreshAuth }),
     [isAuthenticated, user, loading]

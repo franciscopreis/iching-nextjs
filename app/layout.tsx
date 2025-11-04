@@ -21,7 +21,8 @@ const sans = Inter({
 export const metadata: Metadata = {
   title: 'Eu-Chingo',
   description: 'Um website para consulta e divinação com I Ching',
-  keywords: 'Hexagramas, I Ching, Filosofia Chinesa',
+  keywords:
+    'Hexagramas, I Ching, Filosofia Chinesa, Yin-Yang, Trigramas, Divinação',
   icons: { icon: '/yin-yang.svg' },
 }
 
@@ -30,9 +31,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const initialUser = await getCurrentUser()
-  console.log('🏠 Root Layout - Initial User:', initialUser) // Para debug
-
   return (
     <html
       lang="pt"
@@ -46,7 +44,7 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider initialUser={initialUser}>
+          <AuthProvider>
             <AppLayout>
               {children}
               <SpeedInsights />

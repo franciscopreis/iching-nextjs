@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import { useHexagramDisplay } from '@/hooks/useHexagramDisplay'
@@ -27,18 +27,15 @@ export default function ReadingDisplay({
     error,
     handleGenerate,
     handleSave,
+    clearReading,
   } = useHexagramDisplay()
 
   const [userMode, setUserMode] = useState<
     'stacked' | 'horizontal' | 'vertical'
   >('horizontal')
-  const [mounted, setMounted] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
 
-  useEffect(() => setMounted(true), [])
-
   const onGenerate = async () => {
-    // ⚠️ só mostra o modal se já existir uma leitura
     if (hexagrams && question.trim() !== '') {
       const confirm = await Swal.fire({
         title: 'Tens a certeza?',
@@ -47,11 +44,11 @@ export default function ReadingDisplay({
         showCancelButton: true,
         confirmButtonText: 'Sim, continuar',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: '#4b5563', // cinzento
-        cancelButtonColor: '#dc2626', // vermelho
+        confirmButtonColor: '#4b5563',
+        cancelButtonColor: '#dc2626',
       })
 
-      if (!confirm.isConfirmed) return // se cancelar, sai
+      if (!confirm.isConfirmed) return
     }
 
     setIsGenerating(true)
@@ -62,14 +59,33 @@ export default function ReadingDisplay({
     }
   }
 
-  // Guest: salva leitura no localStorage
   const onGuestSave = () => {
-    const readingData = { question, notes, lines, hexagrams }
-    localStorage.setItem('guestReading', JSON.stringify(readingData))
+    if (!hexagrams || !question.trim()) {
+      Swal.fire({
+        title: 'Sem leitura',
+        text: 'Não há leitura para guardar.',
+        icon: 'warning',
+        confirmButtonColor: '#4b5563',
+      })
+      return
+    }
+
+    Swal.fire({
+      title: 'Leitura guardada!',
+      text: 'A tua leitura foi guardada localmente.',
+      icon: 'success',
+      confirmButtonColor: '#4b5563',
+    })
+
+    clearReading()
+  }
+
+  const handleSaveAndClear = async () => {
+    await handleSave(clearReading)
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto flex flex-col gap-6 px-4 ">
+    <div className="w-full max-w-7xl mx-auto flex flex-col gap-6 px-4">
       <ReadingInput
         isGenerating={isGenerating}
         question={question}
@@ -81,7 +97,7 @@ export default function ReadingDisplay({
       <div>
         {hexagrams && (
           <ReadingLogs
-            lines={lines ?? undefined} // se lines for null, passa undefined
+            lines={lines ?? undefined}
             hexagramRaw={hexagrams?.hexagramRaw}
           />
         )}
@@ -96,7 +112,7 @@ export default function ReadingDisplay({
           hexagrams={hexagrams}
           notes={notes}
           setNotes={setNotes}
-          onSave={isGuest ? onGuestSave : handleSave}
+          onSave={isGuest ? onGuestSave : handleSaveAndClear}
           layout={userMode}
         />
       )}

@@ -17,7 +17,7 @@ export function useHexagramSaver({
 }: UseHexagramSaverProps) {
   const router = useRouter()
 
-  const handleSave = async () => {
+  const handleSave = async (clearCallback?: () => void) => {
     if (!hexagrams?.match1 || !hexagrams?.match2) {
       toast.error('Hexagramas incompletos')
       return
@@ -25,7 +25,6 @@ export function useHexagramSaver({
 
     const user = await getCurrentUser()
 
-    // 🔹 Caso não loggado, mostra modal
     if (!user?.id) {
       const { default: Swal } = await import('sweetalert2')
       const result = await Swal.fire({
@@ -63,6 +62,11 @@ export function useHexagramSaver({
       if (!response.ok) throw new Error(`Erro HTTP ${response.status}`)
 
       toast.success('Leitura guardada com sucesso!')
+
+      if (clearCallback) {
+        clearCallback()
+      }
+
       router.push('/dashboard')
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erro desconhecido'

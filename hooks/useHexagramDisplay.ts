@@ -1,53 +1,44 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useHexagramSaver } from './useHexagramSaver'
 import { mapHexagramRow } from '@/lib/mappers/mapHexagramRow'
-import type {
-  Line,
-  BinaryMatchHexagramRawOutput,
-} from '@/lib/hexagram/hexagramTypes'
+import type { BinaryMatchHexagramRawOutput } from '@/lib/hexagram/hexagramTypes'
 import {
   simulateCoinToss,
   generateBinary,
 } from '@/lib/divinationMethods/coinMethodLogic/client'
 import { getLineSymbol } from '@/lib/divinationMethods/coinMethodLogic/getLineSymbol'
+import { useReading } from '@/context/ReadingContext'
 
-const generateLine = (): Line => {
+const generateLine = () => {
   const tosses = [simulateCoinToss(), simulateCoinToss(), simulateCoinToss()]
   const sum = tosses.reduce((a, b) => a + b, 0)
   const symbol = getLineSymbol(sum)
   return { tosses, sum, symbol }
 }
 
-const generateHexagramLines = (): Line[] =>
+const generateHexagramLines = () =>
   Array.from({ length: 6 }, () => generateLine())
 
 export function useHexagramDisplay() {
-  const [question, setQuestion] = useState('')
-  const [notes, setNotes] = useState('')
-  const [lines, setLines] = useState<Line[] | null>(null)
-  const [hexagrams, setHexagrams] =
-    useState<BinaryMatchHexagramRawOutput | null>(null)
+  const {
+    question,
+    setQuestion,
+    notes,
+    setNotes,
+    lines,
+    setLines,
+    hexagrams,
+    setHexagrams,
+    clearReading,
+  } = useReading()
+
   const [error, setError] = useState<string | null>(null)
   const [hexagramRaw, setHexagramRaw] = useState<string | null>(null)
 
   const { handleSave } = useHexagramSaver({ hexagrams, question, notes })
-
-  // 🔹 Recupera leitura guest do localStorage no mount
-  useEffect(() => {
-    const guestReading = localStorage.getItem('guestReading')
-    if (guestReading) {
-      const data = JSON.parse(guestReading)
-
-      // comentado para não limpar o localStorage
-
-      // setNotes(data.notes ?? '')
-      // setLines(data.lines ?? null)
-      // setHexagrams(data.hexagrams ?? null)
-    }
-  }, [])
 
   const handleGenerate = async () => {
     if (!question.trim()) {
@@ -82,17 +73,6 @@ export function useHexagramDisplay() {
       setHexagrams(parsedHexagrams)
       setHexagramRaw(hexagramRaw)
       setError(null)
-
-      // 🔹 Salvar automaticamente no localStorage como guest
-      localStorage.setItem(
-        'guestReading',
-        JSON.stringify({
-          question,
-          notes,
-          lines: rawLines,
-          hexagrams: parsedHexagrams,
-        })
-      )
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erro desconhecido'
       setError(message)
@@ -111,5 +91,6 @@ export function useHexagramDisplay() {
     error,
     handleGenerate,
     handleSave,
+    clearReading,
   }
 }

@@ -37,12 +37,10 @@ export default function Project() {
         <div className="lg:w-3/5 space-y-4 flex flex-col gap-2">
           <h2 className="pl-2 h2-title text-left mb-0">Abordagem técnica</h2>
           <p className="p-primary">
-            Resumidamente usei Next.js 15, Tailwind CSS e SQLite. Inicialmente,
+            Resumidamente usei Next.js 15, Tailwind CSS e SQLite. Não usei
+            nenhum ORM pois queria trabalhar com SQL diretamente. Inicialmente,
             usei base de dados local, mas para produção em Vercel mudei para
             Turso.
-          </p>
-          <p className="p-primary">
-            Não usei nenhum ORM pois queria trabalhar com SQL diretamente.
           </p>
 
           <h2 className="pl-2 h2-title text-left mb-0">Funcionalidades</h2>
