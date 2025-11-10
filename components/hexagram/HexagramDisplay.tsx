@@ -2,11 +2,11 @@
 
 import dynamic from 'next/dynamic'
 import clsx from 'clsx'
-import HexagramCard from './HexagramCard'
-import { HexagramDisplayProps } from '@/lib/hexagram/hexagramTypes'
-import SaveReadingButton from '../ui/button/SaveReadingButton'
+import HexagramGrid from './HexagramGrid'
+import type { HexagramDisplayProps } from '@/lib/hexagram/hexagramTypes'
 
-const TextEditor = dynamic(() => import('@/components/ui/editor/TextEditor'), {
+// Dynamic import do editor de notas (sem SSR)
+const ReadingNotes = dynamic(() => import('../archive/ReadingNotes'), {
   ssr: false,
 })
 
@@ -18,34 +18,38 @@ export default function HexagramDisplay({
   layout,
 }: HexagramDisplayProps) {
   const isVertical = layout === 'vertical'
-  const isHorizontal = layout === 'horizontal'
-  const isStacked = layout === 'stacked'
-
-  const cardsClasses = clsx('w-full', {
-    'grid grid-cols-1 gap-6': isStacked,
-    'grid grid-cols-1 md:grid-cols-2 gap-6 ': isHorizontal,
-    'flex-1 grid grid-cols-1 gap-6 overflow-auto max-h-[calc(100vh-8rem)]':
-      isVertical,
-  })
-
-  const editorClasses = clsx('w-full', {
-    'md:w-60 lg:w-80 xl:w-96 sticky top-28': isVertical,
-  })
 
   return (
     <div className="w-full flex flex-col gap-6">
       <div
-        className={clsx('flex flex-col gap-6 ', isVertical && 'md:flex-row')}
+        className={clsx('flex flex-col gap-6', {
+          'md:flex-row': isVertical,
+        })}
       >
-        <div className={cardsClasses}>
-          <HexagramCard title="Original" hexagram={hexagrams.match1} />
-          <HexagramCard title="Mutante" hexagram={hexagrams.match2} />
+        {/* Coluna dos hexagramas */}
+        <div
+          className={clsx(
+            'flex-1 min-w-[50%] w-full transition-all duration-300',
+            isVertical && 'lg:max-h-[80vh] overflow-auto'
+          )}
+        >
+          <HexagramGrid hexagrams={hexagrams} layout={layout} />
         </div>
-        <div className={editorClasses}>
-          <TextEditor value={notes} onChange={setNotes} aria-label="Notas" />
-          <div className="mt-4 flex justify-center">
-            <SaveReadingButton onSave={onSave} />
-          </div>
+
+        {/* Coluna das notas */}
+        <div
+          className={clsx(
+            'flex-1 w-full transition-all duration-300',
+            isVertical && 'md:max-h-[80vh]'
+          )}
+        >
+          <ReadingNotes
+            notes={notes}
+            setNotes={setNotes}
+            layout={layout}
+            isEditing
+            onSave={onSave}
+          />
         </div>
       </div>
     </div>

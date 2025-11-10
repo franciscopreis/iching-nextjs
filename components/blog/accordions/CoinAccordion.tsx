@@ -2,8 +2,9 @@
 'use client'
 import { useState } from 'react'
 import AccordionItem from '@/components/ui/AccordionItem'
-import CoinTutorial from '../tutorials/CoinTutorial'
+import CoinTutorial from './tutorials/CoinTutorial'
 
+// Accordion para o tutorial de moedas
 export default function CoinAccordion() {
   const [isOpen, setIsOpen] = useState(false)
 

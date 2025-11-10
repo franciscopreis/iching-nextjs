@@ -1,7 +1,7 @@
 // AppContent.tsx
 'use client'
 
-import { useAuth } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthContext'
 import Header from '@/components/ui/navbar/Header'
 import Footer from '@/components/ui/Footer'
 import LoadingSpinner from '@/components/ui/loading/LoadingSpinner'

@@ -1,13 +1,8 @@
 import type { SafeUser } from '@/lib/auth/authTypes'
+import type { ReadingInput } from '@/lib/readings/readingsTypes'
 import { ReadingInputSchema } from '@/lib/hexagram/hexagramSchemas'
 
 // Tipo base usado no frontend
-export type ReadingInput = {
-  question: string
-  notes: string
-  originalBinary: string
-  mutantBinary: string
-}
 
 /**
  * Cria uma nova leitura

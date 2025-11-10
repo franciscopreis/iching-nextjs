@@ -102,3 +102,10 @@ export type Line = {
   sum: number // Soma das 3 moedas, valor entre 6 e 9
   symbol: string // Símbolo visual do hexagrama ('━━o━━', '━━━━━', etc.)
 }
+
+export type HexagramLineItemProps = {
+  idx: number
+  texts: string[]
+  isOpen: boolean
+  toggle: () => void
+}

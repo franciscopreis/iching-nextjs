@@ -2,16 +2,9 @@
 
 import { useRef, useEffect, useState } from 'react'
 import Button from '@/components/ui/button/Button'
+import type { ReadingInputProps } from '@/lib/readings/readingsTypes'
 
-type ReadingInputProps = {
-  question: string
-  setQuestion: (q: string) => void
-  onGenerate: () => Promise<void>
-  isGenerating: boolean
-  error?: string
-  maxLength?: number
-}
-
+// Componente de input para a pergunta da leitura
 export default function ReadingInput({
   question,
   setQuestion,

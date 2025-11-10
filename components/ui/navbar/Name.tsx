@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { User, ChevronDown } from 'lucide-react'
 import Link from 'next/link'
-import { useAuth } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthContext'
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 

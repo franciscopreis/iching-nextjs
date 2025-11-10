@@ -1,9 +1,9 @@
 'use client'
 import { useState } from 'react'
 import AccordionItem from '@/components/ui/AccordionItem'
+import YarrowStalkTutorial from './tutorials/YarrowStalkTutorial'
 
-import YarrowStalkTutorial from '../tutorials/YarrowStalkTutorial'
-
+// Accordion para o tutorial de talos de milefólio
 export default function YarroStalkAccordion() {
   const [isOpen, setIsOpen] = useState(false)
 

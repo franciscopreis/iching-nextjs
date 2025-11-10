@@ -1,18 +1,20 @@
+'use client'
+
+import { useState, forwardRef } from 'react'
 import AccordionItem from '@/components/ui/AccordionItem'
-import ReadingHeader from './ReadingHeader'
+import ArchiveReadingHeader from './ArchiveReadingHeader'
+import ReadingSession from '../reading/ReadingSession'
 import { useReadingNotes } from '@/hooks/useReadingNotes'
 import { useArchiveReadings } from '@/hooks/useReadings'
 import type { ReadingItemProps } from '@/lib/readings/readingsTypes'
-import { useState, forwardRef } from 'react'
-import ModeSelector from '../reading/ModeSelector'
-import ReadingView from '../reading/ReadingView'
 
 const ReadingItem = forwardRef<HTMLDivElement, ReadingItemProps>(
   ({ reading, onDelete, isOpen, onToggle }, ref) => {
-    // hook de leitura de notas
     const { notes, setNotes, isEditing, setIsEditing, saveNotes } =
       useReadingNotes(reading.id, reading.notes ?? '', isOpen)
+
     const { deleteReadingWithConfirm } = useArchiveReadings()
+
     const [layout, setLayout] = useState<'stacked' | 'horizontal' | 'vertical'>(
       'horizontal'
     )
@@ -21,16 +23,12 @@ const ReadingItem = forwardRef<HTMLDivElement, ReadingItemProps>(
       ? new Date(reading.createdAt).toLocaleString()
       : ''
 
-    // Guardar valor original para comparação
-    const originalNotes = reading.notes ?? ''
-
-    // Estado do modal
+    // Modal para descartar alterações
     const [showDiscardModal, setShowDiscardModal] = useState(false)
 
-    // Lógica do botão Edit
     const handleEditClick = () => {
       if (isEditing) {
-        if (notes !== originalNotes) {
+        if (notes !== (reading.notes ?? '')) {
           setShowDiscardModal(true)
         } else {
           setIsEditing(false)
@@ -44,7 +42,7 @@ const ReadingItem = forwardRef<HTMLDivElement, ReadingItemProps>(
       <div ref={ref}>
         <AccordionItem
           title={
-            <ReadingHeader
+            <ArchiveReadingHeader
               question={reading.question}
               date={date}
               originalHexagram={reading.originalHexagram.unicode}
@@ -60,23 +58,17 @@ const ReadingItem = forwardRef<HTMLDivElement, ReadingItemProps>(
           isOpen={isOpen}
           onToggle={onToggle}
         >
-          {/* Mode selector */}
-          <ModeSelector userMode={layout} setUserMode={setLayout} />
-
-          {/* ✅ ReadingView substitui os blocos antigos */}
-          <ReadingView
+          <ReadingSession
             reading={reading}
-            layout={layout}
-            isEditing={isEditing}
             notes={notes}
             setNotes={setNotes}
-            onSaveNotes={saveNotes}
-            showLogs={true}
-            editable={true}
+            isEditing={isEditing}
+            onSave={saveNotes}
+            showModeSelector={true}
+            showInput={false}
           />
         </AccordionItem>
 
-        {/* Modal de descarte */}
         {showDiscardModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full">
@@ -84,8 +76,8 @@ const ReadingItem = forwardRef<HTMLDivElement, ReadingItemProps>(
                 Descartar alterações?
               </h3>
               <p className="text-sm text-gray-700 dark:text-gray-300 mb-6">
-                Você tem alterações não salvas. Tem certeza que quer descartar a
-                edição?
+                Tens alterações que não foram gravadas. Tens a certeza que
+                queres descartar estas alterações?
               </p>
               <div className="flex justify-end gap-4">
                 <button
@@ -98,7 +90,7 @@ const ReadingItem = forwardRef<HTMLDivElement, ReadingItemProps>(
                   className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
                   onClick={() => {
                     setIsEditing(false)
-                    setNotes(originalNotes)
+                    setNotes(reading.notes ?? '')
                     setShowDiscardModal(false)
                   }}
                 >

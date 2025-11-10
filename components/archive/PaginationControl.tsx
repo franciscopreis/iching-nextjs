@@ -1,10 +1,10 @@
-interface PaginationControlProps {
+type PaginationControlProps = {
   page: number
   totalPages: number
   setPage: (page: number) => void
 }
 
-// O controlo de paginação com botões para navegar entre páginas
+// Controlo de paginação com botões para navegar entre páginas
 export default function PaginationControl({
   page,
   totalPages,

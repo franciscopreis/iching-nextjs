@@ -1,11 +1,13 @@
-'use client'
-
 type FormContainerProps = {
   title: string
   children: React.ReactNode
 }
 
-export default function FormContainer({ title, children }: FormContainerProps) {
+// Componente do formulário reutilizável
+export default function AuthFormContainer({
+  title,
+  children,
+}: FormContainerProps) {
   return (
     <div className="w-full max-w-3xl border bg-white dark:bg-stone-900 rounded-lg shadow-md p-4 space-y-4">
       <h1 className="text-xl font-bold text-center">{title}</h1>

@@ -25,7 +25,7 @@ export default function CoinTable() {
             <td className="border text-center px-4 py-3 font-medium">6</td>
             <td className="border text-center px-4 py-3">1/8</td>
             <td className="border text-center px-4 py-3 font-mono">━━x━━</td>
-          </tr>{' '}
+          </tr>
           <tr className="">
             <td className="border text-center px-4 py-3 font-medium">7</td>
             <td className="border text-center px-4 py-3">1/8</td>

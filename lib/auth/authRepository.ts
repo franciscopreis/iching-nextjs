@@ -1,13 +1,13 @@
 import db from '@/data/db/db'
 import { userSchema } from './authSchemas'
 import type { User } from './authTypes'
-import bcrypt from 'bcryptjs'
 
+// Encontra utilizador pelo email na DB
 export async function findUserByEmail(email: string): Promise<User | null> {
   const raw = await db.get<User>('SELECT * FROM users WHERE email = ?', [email])
   if (!raw) return null
 
-  // Converter números → booleanos antes de validar
+  // Garantir consistência de tipos
   const parsed = userSchema.safeParse({
     ...raw,
     emailVerified: Boolean(raw.emailVerified),
@@ -21,10 +21,12 @@ export async function findUserByEmail(email: string): Promise<User | null> {
   return parsed.data
 }
 
+// Encontra utilizador pelo ID na DB
 export async function findUserById(id: number): Promise<User | null> {
   const raw = await db.get<User>('SELECT * FROM users WHERE id = ?', [id])
   if (!raw) return null
 
+  // Garantir consistência de tipos
   const parsed = userSchema.safeParse({
     ...raw,
     emailVerified: Boolean(raw.emailVerified),
@@ -38,6 +40,7 @@ export async function findUserById(id: number): Promise<User | null> {
   return parsed.data
 }
 
+// Insere novo utilizador na DB
 export async function insertUser(
   email: string,
   hashedPassword: string,

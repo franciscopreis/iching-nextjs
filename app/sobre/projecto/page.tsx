@@ -85,9 +85,8 @@ export default function ProjectPage() {
               Imagem e Linhas que serão atualizados com mais comentários
             </li>
             <li>
-              <strong>Blogue técnico integrado</strong> - sistema MDX com
-              filtros e ordenação, que disponibiliza alguns artigos sobre o I
-              Ching
+              <strong>Blog técnico integrado</strong> - sistema MDX com filtros
+              e ordenação, que disponibiliza alguns artigos sobre o I Ching
             </li>
             <li>
               <strong>UX responsiva</strong> - design mobile-first, dark/light

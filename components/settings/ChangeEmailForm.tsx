@@ -5,7 +5,7 @@ import { useActionState } from 'react'
 import { changeEmailAction } from '@/lib/settings/settingsActions'
 import SettingsFormContainer from './SettingsFormContainer'
 import Button from '@/components/ui/button/Button'
-import { useAuth } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthContext'
 import SettingsField from './SettingsField'
 
 export default function ChangeEmailForm() {

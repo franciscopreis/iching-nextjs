@@ -13,7 +13,8 @@ type FormFieldProps = {
   maxLength?: number
 }
 
-export default function FormField({
+// Componente de campo de formulário reutilizável
+export default function AuthFormField({
   id,
   label,
   type = 'text',

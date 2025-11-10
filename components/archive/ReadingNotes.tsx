@@ -1,13 +1,9 @@
-import DOMPurify from 'dompurify'
-import NotesEditor from '../reading/NotesEditor'
+'use client'
 
-interface ReadingNotesProps {
-  notes: string
-  setNotes: (notes: string) => void
-  isEditing: boolean
-  layout: 'stacked' | 'horizontal' | 'vertical'
-  onSave?: () => void
-}
+import { useState } from 'react'
+import clsx from 'clsx'
+import SaveReadingButton from '../reading/SaveReadingButton'
+import type { ReadingNotesProps as NotesProps } from '@/lib/readings/readingsTypes'
 
 export default function ReadingNotes({
   notes,
@@ -15,26 +11,46 @@ export default function ReadingNotes({
   isEditing,
   layout,
   onSave,
-}: ReadingNotesProps) {
-  const wrapperClass =
-    layout === 'vertical'
-      ? 'w-full md:w-60 lg:w-75 xl:w-90 sticky top-6 self-start'
-      : 'w-full'
+  isArchive = false,
+  maxLength = 8000,
+}: NotesProps & { isArchive?: boolean }) {
+  const [localNotes, setLocalNotes] = useState(notes)
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLocalNotes(e.target.value)
+    setNotes(e.target.value)
+  }
+
+  const isVertical = layout === 'vertical'
 
   return (
-    <div className={wrapperClass}>
-      {isEditing ? (
-        <NotesEditor
-          notes={notes}
-          setNotes={setNotes}
-          onSave={onSave}
-          layout={layout}
-        />
-      ) : (
-        <div
-          className="prose dark:prose-invert max-w-none w-full border p-2 rounded-md text-gray-800 dark:text-gray-200"
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(notes) }}
-        />
+    <div className={clsx('flex flex-col gap-2', { '': isVertical })}>
+      <textarea
+        title="Notas"
+        className="w-full p-2 border rounded-lg resize-none dark:bg-gray-800 dark:text-white focus:outline-none focus:ring focus:ring-indigo-400"
+        value={localNotes}
+        maxLength={maxLength}
+        onChange={handleChange}
+        disabled={!isEditing}
+        rows={10}
+      />
+      <div className="w-full lg:max-w-3xl text-right text-sm text-gray-500 mt-0.5 pr-1.5">
+        {localNotes.length} / {maxLength}
+      </div>
+
+      {isEditing && (
+        <div className="flex flex-col gap-2 mt-2">
+          {!isArchive ? (
+            <SaveReadingButton onSave={onSave} />
+          ) : (
+            <button
+              className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+              onClick={onSave}
+            >
+              Guardar alterações
+            </button>
+          )}
+        </div>
       )}
     </div>
   )

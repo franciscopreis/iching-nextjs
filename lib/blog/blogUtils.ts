@@ -1,6 +1,6 @@
-// lib/blog/utils.ts
 import type { PostMeta } from './blogTypes'
 
+// Função para ordenar posts com base no tipo e ordem de ordenação
 export function sortPosts(
   a: PostMeta,
   b: PostMeta,

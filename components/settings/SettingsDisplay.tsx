@@ -10,7 +10,7 @@ import Donation from './Donation'
 import Image from 'next/image'
 import ChangeNameForm from './ChangeNameForm'
 import SendWelcomeButton from './SendWelcomeButton'
-import { useAuth } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthContext'
 import { Check, X } from 'lucide-react'
 import ResendVerificationButton from './ResendVerificationButton'
 

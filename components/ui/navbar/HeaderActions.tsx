@@ -1,6 +1,6 @@
 import DarkModeToggle from '@/components/ui/button/DarkModeButton'
 import MobileMenuButton from './MobileMenuButton'
-import { useAuth } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthContext'
 import Name from './Name'
 
 type HeaderActionsProps = {

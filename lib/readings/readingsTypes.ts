@@ -56,3 +56,68 @@ export type ReadingListProps = {
   setOpenId: (id: number | null) => void
   onDelete: (id: number) => void
 }
+
+export type ReadingHexagramsProps = {
+  originalHexagram: any
+  mutantHexagram: any
+}
+
+export type ReadingHeaderProps = {
+  question: string
+  date: string
+  originalHexagram: string
+  mutantHexagram: string
+  hexagramRaw: string
+  isOpen: boolean
+  isEditing: boolean
+  onEdit: () => void
+  onDelete: () => void
+  onToggle: () => void
+}
+
+export type ReadingNotesProps = {
+  notes: string
+  setNotes: (notes: string) => void
+  isEditing: boolean
+  layout: 'stacked' | 'horizontal' | 'vertical'
+  onSave: () => void
+  maxLength?: number
+}
+
+export type ReadingInputProps = {
+  question: string
+  setQuestion: (q: string) => void
+  onGenerate: () => Promise<void>
+  isGenerating: boolean
+  error?: string
+  maxLength?: number
+}
+
+export type ReadingLogsProps = {
+  lines?: Line[]
+  hexagramRaw?: string
+  title?: string
+}
+
+export type ReadingViewProps = {
+  reading: ReadingView
+  layout: 'stacked' | 'horizontal' | 'vertical'
+  isEditing?: boolean
+  notes: string
+  setNotes: (v: string) => void
+  onSaveNotes: () => void
+  showLogs?: boolean
+  editable?: boolean
+}
+
+export type ReadingType = {
+  question: string
+  lines?: Line[] // as linhas da leitura (6 ou menos)
+  hexagrams?: {
+    match1: HexagramObject
+    match2: HexagramObject
+    hexagramRaw: string // fallback para logs
+  }
+  originalHexagram?: HexagramObject
+  mutantHexagram?: HexagramObject
+}

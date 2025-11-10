@@ -1,6 +1,6 @@
 'use client'
 
-import { useAuth } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthContext'
 import LoadingSpinner from '@/components/ui/loading/LoadingSpinner'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'

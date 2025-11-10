@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import Button from '@/components/ui/button/Button'
-import { useAuth } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthContext'
 import { useState } from 'react'
 import SettingsField from './SettingsField'
 

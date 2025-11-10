@@ -2,61 +2,34 @@
 
 import { useActionState, useEffect } from 'react'
 import { loginUser } from '@/lib/auth/authServices'
-import { useAuth } from '@/context/AuthProvider'
-import type { LoginState } from '@/lib/auth/authTypes'
+import { useAuth } from '@/context/AuthContext'
+import { useLoginFeedback } from '@/hooks/useAuthFeedback'
 import { SubmitButton } from '../ui/button/SubmitButton'
-import FormContainer from './FormContainer'
-import FormField from './FormField'
+import AuthFormContainer from './AuthFormContainer'
+import AuthFormField from './AuthFormField'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
+// Formulário de Login
 export default function LoginForm() {
-  const [state, loginAction] = useActionState<LoginState, FormData>(loginUser, {
+  // Usar useActionState para gerir o estado do formulário de login
+  const [state, loginAction] = useActionState(loginUser, {
     errors: {},
     success: false,
   })
+  // Obter função para atualizar o estado de autenticação
+
   const { refreshAuth } = useAuth()
+  // Obter router para navegação
   const router = useRouter()
 
-  // 🔄 useEffect para lidar com sucesso do login
-  useEffect(() => {
-    if (state.success) {
-      console.log('✅ Login bem-sucedido - iniciando processo...')
-
-      const processSuccess = async () => {
-        try {
-          await refreshAuth()
-          await new Promise((resolve) => setTimeout(resolve, 200))
-
-          const savedReading = localStorage.getItem('guestReading')
-          if (savedReading) {
-            try {
-              const readingData = JSON.parse(savedReading)
-              await fetch('/api/readings/restore-reading', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(readingData),
-              })
-              localStorage.removeItem('guestReading')
-            } catch (err) {
-              console.error('Erro ao restaurar leitura', err)
-            }
-          }
-
-          router.push('/dashboard')
-        } catch (error) {
-          console.error('❌ Erro no processo de login:', error)
-        }
-      }
-
-      processSuccess()
-    }
-  }, [state.success, refreshAuth, router])
+  // Hook personalizado para feedback de login
+  useLoginFeedback(state, refreshAuth, router)
 
   return (
     <main className="flex justify-center px-4 pt-16 flex-col">
-      <FormContainer title="O que fazes aí fora?">
+      <AuthFormContainer title="O que fazes aí fora?">
         <form action={loginAction} className="space-y-4 w-full">
           <div className="flex mx-auto justify-center flex-col">
             <div className="relative w-full max-w-md aspect-6/5 overflow-hidden rounded-lg">
@@ -69,21 +42,22 @@ export default function LoginForm() {
               />
             </div>
             <p className="p-primary text-center text-base tracking-wide leading-relaxed">
-              Não sabes quem somos? <br></br>Vai{' '}
+              Não sabes quem somos? <br />
+              Vai{' '}
               <Link href="/registo">
                 <u>acolá</u>
               </Link>
               .
             </p>
           </div>
-          <FormField
+          <AuthFormField
             id="email"
             label="Email"
             required
             placeholder="user@email.com"
             errors={state.errors?.email ?? []}
           />
-          <FormField
+          <AuthFormField
             id="password"
             label="Palavra-passe"
             type="password"
@@ -95,7 +69,7 @@ export default function LoginForm() {
             <SubmitButton title="Entrar" />
           </div>
         </form>
-      </FormContainer>
+      </AuthFormContainer>
     </main>
   )
 }

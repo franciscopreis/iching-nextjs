@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { ReadingView } from '@/lib/readings/readingsTypes'
-import { useAuth } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthContext'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 

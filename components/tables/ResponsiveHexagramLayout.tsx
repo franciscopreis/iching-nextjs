@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ResponsiveHexagramLayoutProps } from '@/lib/hexagram/hexagramTypes'
-import HexagramCard from '../hexagram/HexagramCard'
+import HexagramCard from '../hexagram/hexagramCard/HexagramCard'
 
 export default function ResponsiveHexagramLayout({
   table,

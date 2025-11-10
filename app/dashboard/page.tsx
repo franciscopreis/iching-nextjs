@@ -18,12 +18,12 @@ export default function DashboardPage() {
               <Image
                 src="/images/svg/snake-crop.png" // caminho da imagem
                 alt="Descrição da imagem"
-                fill // faz a imagem preencher o container
+                fill
                 className="filter dark:invert w-full h-auto group-hover:scale-75 scale-70"
                 style={{
                   objectFit: 'cover',
                   objectPosition: '10% 80%',
-                }} // mantém proporção e cobre o quadrado
+                }}
               />
               {/* Texto sobre a imagem */}
               <div className="absolute top-2 left-16 flex items-center justify-center bg-transparent text-3xl  font-bold">
@@ -80,7 +80,7 @@ export default function DashboardPage() {
             tiverem críticas e sugestões, podem contactar-me através do
             formulário nas{' '}
             <Link href="dashboard/definicoes">
-              <u>definições.</u>
+              <u>definições</u>.
             </Link>{' '}
           </p>
         </div>

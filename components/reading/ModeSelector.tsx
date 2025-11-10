@@ -1,30 +1,62 @@
-type ModeSelectorProps = {
-  userMode: 'stacked' | 'horizontal' | 'vertical'
-  setUserMode: (mode: 'stacked' | 'horizontal' | 'vertical') => void
+'use client'
+
+import clsx from 'clsx'
+import { useEffect, useState } from 'react'
+
+type ModeSelectorProps<T extends string> = {
+  value: T
+  options: T[]
+  onChange: (value: T) => void
 }
 
-export default function ModeSelector({
-  userMode,
-  setUserMode,
-}: ModeSelectorProps) {
+// Modo que controla o layout:
+// - esconde em sm e md
+// - força stacked em telas < lg
+
+export default function ModeSelector<T extends string>({
+  value,
+  options,
+  onChange,
+}: ModeSelectorProps<T>) {
+  const [internalValue, setInternalValue] = useState(value)
+
+  // Sincroniza valor do pai
+  useEffect(() => {
+    setInternalValue(value)
+  }, [value])
+
+  // Força stacked abaixo de lg
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024 && internalValue !== 'stacked') {
+        setInternalValue('stacked' as T)
+        onChange('stacked' as T)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [internalValue, onChange])
+
   return (
-    <div className="hidden md:flex gap-2 justify-center mb-4">
-      {(['stacked', 'horizontal', 'vertical'] as const).map((mode) => (
+    <div className="hidden lg:flex justify-center gap-2 mb-4">
+      {options.map((opt) => (
         <button
-          key={mode}
+          key={opt}
           type="button"
-          className={`cursor-pointer px-3 py-1 text-xs border rounded ${
-            userMode === mode
-              ? 'dark:bg-white dark:text-black bg-black text-white'
-              : 'text-black dark:text-white'
-          } hover:bg-amber-400`}
-          onClick={() => setUserMode(mode)}
+          onClick={() => {
+            setInternalValue(opt)
+            onChange(opt)
+          }}
+          className={clsx(
+            'px-3 py-1 rounded-md border transition-colors',
+            'dark:hover:bg-amber-500 hover:bg-amber-500',
+            internalValue === opt
+              ? ' dark:bg-white border dark:border-black dark:text-black bg-black border-white text-white'
+              : ''
+          )}
         >
-          {mode === 'stacked'
-            ? 'Empilhado'
-            : mode === 'horizontal'
-              ? 'Horizontal'
-              : 'Vertical'}
+          {opt.charAt(0).toUpperCase() + opt.slice(1)}
         </button>
       ))}
     </div>

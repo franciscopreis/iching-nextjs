@@ -1,10 +1,7 @@
-import HexagramCard from '@/components/hexagram/HexagramCard'
+import HexagramCard from '@/components/hexagram/hexagramCard/HexagramCard'
+import type { ReadingHexagramsProps } from '@/lib/readings/readingsTypes'
 
-interface ReadingHexagramsProps {
-  originalHexagram: any
-  mutantHexagram: any
-}
-
+// Par de hexagramas da leitura
 export default function ReadingHexagrams({
   originalHexagram,
   mutantHexagram,

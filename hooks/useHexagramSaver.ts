@@ -1,5 +1,6 @@
+'use client'
+
 import { toast } from 'react-toastify'
-import { ui } from '@/lib/ui/alerts'
 import { useRouter } from 'next/navigation'
 import type { BinaryMatchHexagramRawOutput } from '@/lib/hexagram/hexagramTypes'
 import { getCurrentUser } from '@/lib/auth/session'
@@ -17,7 +18,7 @@ export function useHexagramSaver({
 }: UseHexagramSaverProps) {
   const router = useRouter()
 
-  const handleSave = async (clearCallback?: () => void) => {
+  const handleSave = async (readingData?: any, clearCallback?: () => void) => {
     if (!hexagrams?.match1 || !hexagrams?.match2) {
       toast.error('Hexagramas incompletos')
       return
@@ -25,27 +26,29 @@ export function useHexagramSaver({
 
     const user = await getCurrentUser()
 
+    // Guest: salva localmente
     if (!user?.id) {
-      const { default: Swal } = await import('sweetalert2')
-      const result = await Swal.fire({
-        title: 'Não estás logado',
-        text: 'Para guardar leituras precisas criar conta ou iniciar sessão.',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Criar conta',
-        cancelButtonText: 'Cancelar',
-      })
-      if (result.isConfirmed) router.push('/registo')
+      if (readingData && clearCallback) clearCallback()
+      localStorage.setItem(
+        'guestReading',
+        JSON.stringify(
+          readingData ?? {
+            question,
+            notes,
+            originalBinary: hexagrams.match1.binary,
+            mutantBinary: hexagrams.match2.binary,
+            hexagramRaw: hexagrams.hexagramRaw,
+          }
+        )
+      )
+      toast.warning(
+        'A leitura foi guardada localmente. Para guardá-la no dashboard, inicia sessão ou regista-te.'
+      )
       return
     }
 
+    // User autenticado: grava na DB
     try {
-      const res = await ui.confirm({
-        title: 'Guardar leitura?',
-        text: 'Desejas realmente guardar esta leitura?',
-      })
-      if (!res.isConfirmed) return
-
       const response = await fetch('/api/readings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -59,18 +62,17 @@ export function useHexagramSaver({
         }),
       })
 
-      if (!response.ok) throw new Error(`Erro HTTP ${response.status}`)
-
-      toast.success('Leitura guardada com sucesso!')
-
-      if (clearCallback) {
-        clearCallback()
+      const data = await response.json()
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || `Erro HTTP ${response.status}`)
       }
 
+      toast.success('Leitura guardada com sucesso!')
+      if (clearCallback) clearCallback()
       router.push('/dashboard')
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Erro desconhecido'
-      toast.error('Erro ao guardar: ' + message)
+      const message = err instanceof Error ? err.message : String(err)
+      toast.error('Erro ao guardar leitura: ' + message)
       console.error('Erro ao guardar leitura:', err)
     }
   }

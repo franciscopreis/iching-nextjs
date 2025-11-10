@@ -1,7 +1,6 @@
-'use client'
-
 import type { BlogFiltersProps } from '@/lib/blog/blogTypes'
 
+// Componente para os filtros (por categoria) e sort (por data, nome e categoria)
 export default function BlogFilters({
   sortType,
   sortOrder,

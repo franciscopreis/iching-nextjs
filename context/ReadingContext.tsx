@@ -12,6 +12,7 @@ import type {
   Line,
   BinaryMatchHexagramRawOutput,
 } from '@/lib/hexagram/hexagramTypes'
+import { useAuth } from './AuthContext'
 
 interface ReadingContextType {
   question: string
@@ -23,12 +24,13 @@ interface ReadingContextType {
   hexagrams: BinaryMatchHexagramRawOutput | null
   setHexagrams: (hexagrams: BinaryMatchHexagramRawOutput | null) => void
   clearReading: () => void
-  saveToLocalStorageNow: () => void // 👈 novo método
+  saveToLocalStorageNow: () => void
 }
 
 const ReadingContext = createContext<ReadingContextType | undefined>(undefined)
 
 export function ReadingProvider({ children }: { children: ReactNode }) {
+  const { isAuthenticated, loading } = useAuth()
   const [question, setQuestion] = useState('')
   const [notes, setNotes] = useState('')
   const [lines, setLines] = useState<Line[] | null>(null)
@@ -36,8 +38,12 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
     useState<BinaryMatchHexagramRawOutput | null>(null)
   const [hydrated, setHydrated] = useState(false)
 
-  // Hidratar do localStorage
+  // Hidratar do localStorage (apenas guest)
   useEffect(() => {
+    if (loading || isAuthenticated) {
+      setHydrated(true)
+      return
+    }
     try {
       const guestReading = localStorage.getItem('guestReading')
       if (guestReading) {
@@ -52,11 +58,11 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
     } finally {
       setHydrated(true)
     }
-  }, [])
+  }, [isAuthenticated, loading])
 
-  // Persistir automaticamente (depois de montado)
+  // Persistência automática (só para guest)
   useEffect(() => {
-    if (!hydrated) return
+    if (!hydrated || loading || isAuthenticated) return
 
     const hasData =
       (question && question.trim() !== '') ||
@@ -65,19 +71,22 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
       !!hexagrams
 
     if (hasData) {
-      const readingData = { question, notes, lines, hexagrams }
       try {
-        localStorage.setItem('guestReading', JSON.stringify(readingData))
+        localStorage.setItem(
+          'guestReading',
+          JSON.stringify({ question, notes, lines, hexagrams })
+        )
       } catch (err) {
         console.error('Erro ao gravar leitura no localStorage:', err)
       }
     } else {
       localStorage.removeItem('guestReading')
     }
-  }, [hydrated, question, notes, lines, hexagrams])
+  }, [hydrated, loading, isAuthenticated, question, notes, lines, hexagrams])
 
-  // Grava imediatamente (usado antes de redirect/login)
+  // Grava imediata (antes de redirect/login)
   const saveToLocalStorageNow = useCallback(() => {
+    if (isAuthenticated) return // não gravar para user logado
     try {
       const readingData = { question, notes, lines, hexagrams }
       localStorage.setItem('guestReading', JSON.stringify(readingData))
@@ -85,16 +94,23 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
     } catch (err) {
       console.error('Erro ao gravar leitura no localStorage:', err)
     }
-  }, [question, notes, lines, hexagrams])
+  }, [question, notes, lines, hexagrams, isAuthenticated])
 
   // Limpa tudo
-  const clearReading = () => {
+  const clearReading = useCallback(() => {
     setQuestion('')
     setNotes('')
     setLines(null)
     setHexagrams(null)
     localStorage.removeItem('guestReading')
-  }
+  }, [])
+
+  // Limpar automaticamente ao logar
+  useEffect(() => {
+    if (isAuthenticated) {
+      clearReading()
+    }
+  }, [isAuthenticated, clearReading])
 
   return (
     <ReadingContext.Provider
@@ -108,7 +124,7 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
         hexagrams,
         setHexagrams,
         clearReading,
-        saveToLocalStorageNow, // 👈 incluído aqui
+        saveToLocalStorageNow,
       }}
     >
       {children}
@@ -118,8 +134,7 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
 
 export const useReading = () => {
   const context = useContext(ReadingContext)
-  if (context === undefined) {
+  if (!context)
     throw new Error('useReading must be used within a ReadingProvider')
-  }
   return context
 }

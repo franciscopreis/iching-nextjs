@@ -5,7 +5,7 @@ import { changeNameAction } from '@/lib/settings/settingsActions'
 import SettingsFormContainer from './SettingsFormContainer'
 import SettingsField from './SettingsField'
 import Button from '../ui/button/Button'
-import { useAuth } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthContext'
 import { useEffect } from 'react'
 
 export default function ChangeNameForm() {

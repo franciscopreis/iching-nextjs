@@ -1,19 +1,8 @@
 import { Trash, Minus, Plus, Edit2 } from 'lucide-react'
+import type { ReadingHeaderProps } from '@/lib/readings/readingsTypes'
 
-interface ReadingHeaderProps {
-  question: string
-  date: string
-  originalHexagram: string
-  mutantHexagram: string
-  hexagramRaw: string
-  isOpen: boolean
-  isEditing: boolean
-  onEdit: () => void
-  onDelete: () => void
-  onToggle: () => void
-}
-
-export default function ReadingHeader({
+// Cabeçalho da leitura com pergunta, data, hexagramas e botões (editar e apagar)
+export default function ArchiveReadingHeader({
   question,
   date,
   originalHexagram,
@@ -30,7 +19,7 @@ export default function ReadingHeader({
       <div className="text-left">
         <div className="font-semibold text-sm lg:text-base">{question}</div>
         <div className="text-xs lg:text-sm text-gray-600 dark:text-gray-400">
-          {date} - {hexagramRaw} - {originalHexagram} {mutantHexagram}
+          {date} • {hexagramRaw} • {originalHexagram} {mutantHexagram}
         </div>
       </div>
       <div className="ml-4 flex gap-2 items-center">

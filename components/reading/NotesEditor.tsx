@@ -1,7 +1,7 @@
 'use client'
 
-import Button from '@/components/ui/button/Button'
 import TextEditor from '@/components/ui/editor/TextEditor'
+import Button from '@/components/ui/button/Button'
 
 type Props = {
   notes: string
@@ -20,17 +20,13 @@ export default function NotesEditor({
 
   return (
     <div
-      className={`
-        w-full
-        ${isVertical ? 'lg:w-96 xl:w-92 lg:sticky lg:top-32 md:sticky md:top-28 h-min' : ''}
-      `}
+      className={`w-full flex flex-col gap-4 ${
+        isVertical ? 'sticky top-28 self-start' : ''
+      }`}
     >
-      <TextEditor
-        value={notes}
-        onChange={setNotes}
-        placeholder="Escreve as tuas notas…"
-      />
-      <div className="mt-4 flex justify-center p-2">
+      <TextEditor value={notes} onChange={setNotes} />
+
+      <div className="flex justify-center">
         <Button text="Guardar" type="button" onClick={onSave} />
       </div>
     </div>

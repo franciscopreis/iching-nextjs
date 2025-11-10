@@ -1,22 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import { useHexagramDisplay } from '@/hooks/useHexagramDisplay'
 import ReadingInput from './ReadingInput'
-import ModeSelector from '@/components/reading/ModeSelector'
-import HexagramDisplay from '../hexagram/HexagramDisplay'
-import ReadingLogs from './ReadingLogs'
+import ReadingSession from './ReadingSession'
 
-type ReadingDisplayProps = {
-  isGuest?: boolean
-}
-
-export default function ReadingDisplay({
-  isGuest = false,
-}: ReadingDisplayProps) {
-  const router = useRouter()
+export default function ReadingDisplay({ isGuest = false }) {
   const {
     question,
     setQuestion,
@@ -30,9 +20,6 @@ export default function ReadingDisplay({
     clearReading,
   } = useHexagramDisplay()
 
-  const [userMode, setUserMode] = useState<
-    'stacked' | 'horizontal' | 'vertical'
-  >('horizontal')
   const [isGenerating, setIsGenerating] = useState(false)
 
   const onGenerate = async () => {
@@ -44,10 +31,7 @@ export default function ReadingDisplay({
         showCancelButton: true,
         confirmButtonText: 'Sim, continuar',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: '#4b5563',
-        cancelButtonColor: '#dc2626',
       })
-
       if (!confirm.isConfirmed) return
     }
 
@@ -65,19 +49,10 @@ export default function ReadingDisplay({
         title: 'Sem leitura',
         text: 'Não há leitura para guardar.',
         icon: 'warning',
-        confirmButtonColor: '#4b5563',
       })
       return
     }
-
-    Swal.fire({
-      title: 'Leitura guardada!',
-      text: 'A tua leitura foi guardada localmente.',
-      icon: 'success',
-      confirmButtonColor: '#4b5563',
-    })
-
-    clearReading()
+    handleSave(clearReading)
   }
 
   const handleSaveAndClear = async () => {
@@ -86,6 +61,7 @@ export default function ReadingDisplay({
 
   return (
     <div className="w-full max-w-7xl mx-auto flex flex-col gap-6 px-4">
+      {/* Input da questão */}
       <ReadingInput
         isGenerating={isGenerating}
         question={question}
@@ -94,26 +70,16 @@ export default function ReadingDisplay({
         error={error ?? undefined}
       />
 
-      <div>
-        {hexagrams && (
-          <ReadingLogs
-            lines={lines ?? undefined}
-            hexagramRaw={hexagrams?.hexagramRaw}
-          />
-        )}
-      </div>
-
+      {/* Resultado da leitura */}
       {hexagrams && (
-        <ModeSelector userMode={userMode} setUserMode={setUserMode} />
-      )}
-
-      {hexagrams && (
-        <HexagramDisplay
+        <ReadingSession
           hexagrams={hexagrams}
+          lines={lines ?? undefined}
           notes={notes}
           setNotes={setNotes}
+          layout="horizontal"
+          isEditing={true}
           onSave={isGuest ? onGuestSave : handleSaveAndClear}
-          layout={userMode}
         />
       )}
     </div>

@@ -2,7 +2,7 @@ import ReadingItem from './ReadingItem'
 import type { ReadingListProps } from '@/lib/readings/readingsTypes'
 import { useRef, useEffect } from 'react'
 
-// A lista de leituras no arquivo com itens expansíveis
+// Lista de leituras no arquivo com itens expansíveis
 export default function ReadingList({
   readings,
   openId,
@@ -11,6 +11,7 @@ export default function ReadingList({
 }: ReadingListProps) {
   const itemRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
+  // Efeito para scroll até ao item aberto
   useEffect(() => {
     if (openId && itemRefs.current[openId]) {
       const el = itemRefs.current[openId]

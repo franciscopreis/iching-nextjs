@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
-import { useAuth } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthContext'
 
 // ------------------------
 // Tipos
@@ -17,7 +17,7 @@ type NavItem = LinkItem | ActionItem
 const baseLinks: LinkItem[] = [
   { type: 'link', href: '/', label: 'Início' },
   { type: 'link', href: '/sobre/i-ching', label: 'Sobre' },
-  { type: 'link', href: '/blog', label: 'Blogue' },
+  { type: 'link', href: '/blog', label: 'Blog' },
 ]
 
 // ------------------------

@@ -1,5 +1,4 @@
 // Estilos e performance revistos
-//
 
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
@@ -17,6 +16,7 @@ import YarrowStalkAccordion from '@/components/blog/accordions/YarrowStalkAccord
 import YarrowStalkTable from '@/components/blog/tables/YarrowStalkTable'
 import Image from 'next/image'
 
+// Mapeamento de componentes MDX
 const components = {
   TrigramTable,
   LineTable,
@@ -42,7 +42,7 @@ export default async function BlogPostPage({ params }: any) {
         <div className="flex items-center mb-4">
           <Link
             href="/blog"
-            className="inline-flex items-center text-sm text-gray-600 hover:text-amber-500 dark:text-gray-400 transition"
+            className="inline-flex items-center text-sm text-gray-600 hover:text-amber-500 dark:text-gray-400 transition no-underline"
           >
             <ArrowLeft size={18} className="mr-2" />
             Voltar ao Blog

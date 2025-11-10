@@ -7,10 +7,11 @@ import Button from '@/components/ui/button/Button'
 import Swal from 'sweetalert2'
 import { useReading } from '@/context/ReadingContext'
 
+// Componente do botão de guardar leitura
 export default function SaveReadingButton({ onSave }: { onSave: () => void }) {
   const [user, setUser] = useState<{ id: number; email: string } | null>(null)
-  const router = useRouter()
-  const { saveToLocalStorageNow } = useReading()
+  const router = useRouter() // hook do router
+  const { saveToLocalStorageNow, clearReading } = useReading() // hook da leitura
 
   useEffect(() => {
     async function fetchUser() {
@@ -23,14 +24,16 @@ export default function SaveReadingButton({ onSave }: { onSave: () => void }) {
   const handleClick = async () => {
     if (!user) {
       // Atualiza o estado da leitura
+      console.log('handleClick disparado')
+      console.log('Usuário não logado, salvando no localStorage...')
       onSave()
 
       // Delay para garantir que o estado React atualizou
       await new Promise((resolve) => setTimeout(resolve, 100))
 
-      // Forçar a gravação no localStorage
+      // Força a gravação no localStorage
       saveToLocalStorageNow()
-
+      console.log(localStorage.getItem('guestReading'))
       // Pergunta ao user
       const res = await Swal.fire({
         title: 'A tua sessão não está iniciada',
@@ -41,18 +44,22 @@ export default function SaveReadingButton({ onSave }: { onSave: () => void }) {
         confirmButtonText: 'Registo',
         denyButtonText: 'Login',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: 'gray',
-        denyButtonColor: 'gray',
-        cancelButtonColor: '#DC2626',
+        confirmButtonColor: 'green',
+        denyButtonColor: 'blue',
+        cancelButtonColor: 'orange',
       })
 
       if (res.isConfirmed) router.push('/registo')
       else if (res.isDenied) router.push('/login')
+      else if (res.dismiss === Swal.DismissReason.cancel)
+        window.location.reload()
       return
     }
+    console.log('Usuário logado, salvando leitura e limpando localStorage...')
+    onSave() // Atualiza o estado da leitura
 
-    // ✅ User autenticado: grava direto
-    onSave()
+    clearReading() // Limpa a leitura atual do contexto
+    localStorage.getItem('guestReading')
   }
 
   return <Button text="Guardar" type="button" onClick={handleClick} />

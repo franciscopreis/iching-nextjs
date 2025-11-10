@@ -5,7 +5,6 @@
 [![TypeScript](https://img.shields.io/badge/typescript-5-blue?logo=typescript)](https://www.typescriptlang.org)
 
 [![Roadmap](https://img.shields.io/badge/roadmap-available-blue)](ROADMAP.md)
-[![Dev_Journey](https://img.shields.io/badge/dev_journey-available-blue)](DEV_JORUNEY.md)
 
 A modern full-stack web application I built to make the ancient I Ching divination system accessible to everyone (mainly to the Portuguese speakers), whether you're new to it or already practice it.
 
@@ -43,9 +42,9 @@ _PS: I experimented building I Ching apps in the past, but this time I got serio
 
 ## 🛠️ Stack
 
-**Frontend:** Next.js 15, React 18, TypeScript, Tailwind CSS, Context API
-**Backend:** Next.js API Routes, SQLite, JWT, Zod, bcrypt, Stripe, SendGrid
-**Deployment:** Vercel, Turso
+- **Frontend:** Next.js 15, React 18, TypeScript, Tailwind CSS, Context API
+- **Backend:** Next.js API Routes, SQLite, JWT, Zod, bcrypt, Stripe, SendGrid
+- **Deployment:** Vercel, Turso
 
 ## 📁 Under the Hood
 

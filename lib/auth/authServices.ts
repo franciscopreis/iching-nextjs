@@ -20,6 +20,7 @@ export async function loginUser(
     password: string
   }
   const result = loginSchema.safeParse(body)
+  console.log('Login attempt:', body)
 
   if (!result.success) {
     const { fieldErrors } = result.error.flatten()
@@ -67,6 +68,8 @@ export async function registerUser(
     const { fieldErrors } = result.error.flatten()
     return { errors: fieldErrors, success: false }
   }
+
+  console.log('Register attempt:', body)
 
   const { sanitizedEmail, sanitizedPassword, sanitizedName } =
     sanitizeEmailPasswordName(
