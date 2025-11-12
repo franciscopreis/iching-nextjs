@@ -9,6 +9,7 @@ type AccordionItemProps = {
   children: ReactNode
 }
 
+// Componente AccordionItem reutilizável
 const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
   ({ title, isOpen, onToggle, children }, ref) => {
     return (

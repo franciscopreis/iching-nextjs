@@ -3,11 +3,11 @@ import { AuthProvider } from '@/context/AuthContext'
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, Inter } from 'next/font/google'
 import ThemeProvider from './theme/theme-provider'
-
 import AppLayout from '@/components/AppContent/AppLayout'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ReadingProvider } from '@/context/ReadingContext'
 
+// Fontes
 const serif = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['400', '500', '700'],
@@ -19,6 +19,7 @@ const sans = Inter({
   variable: '--font-sans',
 })
 
+// Metadados
 export const metadata: Metadata = {
   title: 'Eu-Chingo',
   description: 'Um website para consulta e divinação com I Ching',
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
   icons: { icon: '/yin-yang.svg' },
 }
 
+// Layout principal
 export default async function RootLayout({
   children,
 }: {

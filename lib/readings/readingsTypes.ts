@@ -1,6 +1,12 @@
-import type { HexagramObject } from '@/lib/hexagram/hexagramTypes'
-import type { Line } from '@/lib/hexagram/hexagramTypes'
-// === Reading DB Rows ===
+import type {
+  HexagramObject,
+  BinaryMatchHexagramRawOutput,
+  Line,
+} from '@/lib/hexagram/hexagramTypes'
+
+export type LayoutMode = 'stacked' | 'horizontal' | 'vertical'
+
+// --- Tipos base de leitura ---
 export type ReadingRow = {
   id: number
   user_id: number
@@ -19,7 +25,6 @@ export type Reading = {
   lines?: Line[]
 }
 
-// === Reading used in frontend with Hexagrams ===
 export type ReadingView = ReadingRow & {
   originalHexagram: HexagramObject
   mutantHexagram: HexagramObject
@@ -27,7 +32,6 @@ export type ReadingView = ReadingRow & {
   lines?: Line[]
 }
 
-// === Input para criar uma leitura ===
 export type ReadingInput = {
   user_id: number
   question: string
@@ -37,7 +41,7 @@ export type ReadingInput = {
   hexagramRaw: string
 }
 
-// Props para componentes
+// --- Props de componentes ---
 export type ReadingItemProps = {
   reading: ReadingView
   onDelete: (id: number) => void
@@ -45,21 +49,11 @@ export type ReadingItemProps = {
   onToggle: () => void
 }
 
-// Erro genérico
-export type ErrorResponse = {
-  error: string
-}
-
 export type ReadingListProps = {
   readings: ReadingView[]
   openId: number | null
   setOpenId: (id: number | null) => void
   onDelete: (id: number) => void
-}
-
-export type ReadingHexagramsProps = {
-  originalHexagram: any
-  mutantHexagram: any
 }
 
 export type ReadingHeaderProps = {
@@ -79,7 +73,7 @@ export type ReadingNotesProps = {
   notes: string
   setNotes: (notes: string) => void
   isEditing: boolean
-  layout: 'stacked' | 'horizontal' | 'vertical'
+  layout: LayoutMode
   onSave: () => void
   maxLength?: number
 }
@@ -101,7 +95,7 @@ export type ReadingLogsProps = {
 
 export type ReadingViewProps = {
   reading: ReadingView
-  layout: 'stacked' | 'horizontal' | 'vertical'
+  layout: LayoutMode
   isEditing?: boolean
   notes: string
   setNotes: (v: string) => void
@@ -110,14 +104,38 @@ export type ReadingViewProps = {
   editable?: boolean
 }
 
-export type ReadingType = {
+// --- Tipos auxiliares ---
+export type HexagramsType = {
+  match1: HexagramObject
+  match2: HexagramObject
+  hexagramRaw: string
+}
+
+export type LineType = Line
+
+export type ReadingSessionProps = {
+  reading?: ReadingView
+  hexagrams?: HexagramsType
+  lines?: LineType[] | null
+  notes: string
+  setNotes: (value: string) => void
+  onSave?: () => void
+  layout?: LayoutMode
+  isEditing?: boolean
+  showInput?: boolean
+  showModeSelector?: boolean
+}
+
+// --- Contexto ---
+export type ReadingContextType = {
   question: string
-  lines?: Line[] // as linhas da leitura (6 ou menos)
-  hexagrams?: {
-    match1: HexagramObject
-    match2: HexagramObject
-    hexagramRaw: string // fallback para logs
-  }
-  originalHexagram?: HexagramObject
-  mutantHexagram?: HexagramObject
+  setQuestion: (question: string) => void
+  notes: string
+  setNotes: (notes: string) => void
+  lines: Line[] | null
+  setLines: (lines: Line[] | null) => void
+  hexagrams: BinaryMatchHexagramRawOutput | null
+  setHexagrams: (hexagrams: BinaryMatchHexagramRawOutput | null) => void
+  clearReading: () => void
+  saveToLocalStorageNow: () => void
 }

@@ -3,6 +3,8 @@ import { getUserById } from '@/lib/settings/settingsRepository'
 import { successResponse, errorResponse } from '@/lib/utils/responses'
 import { sendEmailVerification } from '@/lib/settings/settingsServices'
 
+// POST /api/settings/resend-verification
+// Reenvia o email de verificação
 export async function POST(req: NextRequest) {
   try {
     const { userId } = await req.json()
@@ -23,7 +25,7 @@ export async function POST(req: NextRequest) {
     await sendEmailVerification(user.id, user.email, user.name ?? undefined)
     return successResponse({ message: 'Email de verificação reenviado' })
   } catch (err: any) {
-    console.error('❌ Erro ao reenviar email de verificação:', err)
+    console.error('Erro ao reenviar email de verificação:', err)
     return errorResponse('Erro ao reenviar email de verificação', 500)
   }
 }

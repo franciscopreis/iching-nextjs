@@ -1,8 +1,7 @@
-// app/status/success/donation/page.tsx
-import { Heart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// Página de sucesso ao doar
 export default function DonationSuccess() {
   return (
     <div className="text-center space-y-6 px-5">
@@ -15,7 +14,7 @@ export default function DonationSuccess() {
       </div>
       <div className="relative w-full max-w-md aspect-square overflow-hidden rounded-lg justify-center items-center mx-auto">
         <Image
-          src="/images/new/naked-lady.svg"
+          src="/images/used/naked-lady.svg"
           alt="Descrição da imagem"
           fill
           className="object-container transition duration-300 dark:invert"

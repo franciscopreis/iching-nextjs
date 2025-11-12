@@ -14,6 +14,7 @@ type AuthProviderProps = {
   children: React.ReactNode
 }
 
+// Contexto de autenticação
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<SafeUser | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -25,7 +26,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const response = await fetch('/api/auth/me', { cache: 'no-store' })
       if (response.ok) {
         const { data } = await response.json()
-        setUser(data) // ← aqui está a diferença
+        setUser(data)
         setIsAuthenticated(true)
       } else {
         setUser(null)

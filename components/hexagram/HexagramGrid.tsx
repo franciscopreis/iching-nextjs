@@ -1,4 +1,4 @@
-import { HexagramLayoutProps } from '@/lib/hexagram/hexagramTypes'
+import { HexagramComponentProps } from '@/lib/hexagram/hexagramTypes'
 import HexagramCard from './hexagramCard/HexagramCard'
 import clsx from 'clsx'
 
@@ -6,7 +6,7 @@ import clsx from 'clsx'
 export default function HexagramGrid({
   hexagrams,
   layout,
-}: HexagramLayoutProps) {
+}: HexagramComponentProps) {
   const isVertical = layout === 'vertical'
   const isHorizontal = layout === 'horizontal'
   const isStacked = layout === 'stacked'

@@ -1,3 +1,4 @@
+// Função auxiliar para obter o simbolo da linha
 export const getLineSymbol = (sum: number) => {
   switch (sum) {
     case 6:

@@ -12,6 +12,8 @@ function getStripe() {
   return StripeSDK
 }
 
+// POST /api/settings/donation/create-checkout-session
+// Cria uma sessão Stripe para a doação
 export async function POST(req: Request) {
   try {
     const stripe = getStripe()

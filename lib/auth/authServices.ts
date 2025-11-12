@@ -1,4 +1,3 @@
-// authServices.ts
 'use server'
 import bcrypt from 'bcryptjs'
 import type { LoginState, RegisterState, SafeUser } from './authTypes'
@@ -11,6 +10,7 @@ import { cookies } from 'next/headers'
 
 const SALT_ROUNDS = 10
 
+// Serviço para inicio de sessão
 export async function loginUser(
   _prevState: LoginState,
   formData: FormData
@@ -53,6 +53,7 @@ export async function loginUser(
   return { errors: {}, success: true, userId: user.id }
 }
 
+// Serviço para registo
 export async function registerUser(
   _prevState: RegisterState,
   formData: FormData
@@ -89,7 +90,7 @@ export async function registerUser(
   const hashed = await hashPassword(sanitizedPassword, SALT_ROUNDS)
   const newUserId = await insertUser(sanitizedEmail, hashed, sanitizedName)
 
-  // 🚀 Envia email de verificação logo após o registo
+  // Envia email de verificação logo após o registo
   await sendEmailVerification(newUserId, sanitizedEmail, sanitizedName)
 
   // Cria sessão, se quiseres manter login imediato
@@ -104,6 +105,7 @@ export async function registerUser(
   return { errors: {}, success: true, userId: newUserId }
 }
 
+// Obter utilizador atual a partir da base de dados
 export async function getCurrentUserFromDB(): Promise<SafeUser | null> {
   const store = await cookies()
   const token = store.get('session')?.value

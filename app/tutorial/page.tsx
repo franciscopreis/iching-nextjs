@@ -1,9 +1,10 @@
-import Reading from '@/components/reading/Reading'
+import ReadingDisplay from '@/components/reading/ReadingDisplay'
 
+// Página de leituras
 export default function TutorialPage() {
   return (
     <main className="page-content mt-5 lg:mt-0">
-      <Reading />
+      <ReadingDisplay />
     </main>
   )
 }

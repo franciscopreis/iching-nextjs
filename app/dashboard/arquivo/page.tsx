@@ -1,6 +1,7 @@
 import ArchiveDisplay from '@/components/archive/ArchiveDisplay'
 import Image from 'next/image'
 
+// Página de arquivos
 export default function ArquivoPage() {
   return (
     <main className="main-dashboard max-w-full">
@@ -9,7 +10,7 @@ export default function ArquivoPage() {
 
         <div className="relative w-full -top-10 h-100 lg:h-[350px]">
           <Image
-            src="/images/svg/tiger-chop.svg"
+            src="/images/used/tiger-chop.svg"
             alt="Ilustração de um tigre"
             fill
             className="object-contain w-full h-full p-0 transform transition-transform duration-300 hover:scale-105 dark:invert"

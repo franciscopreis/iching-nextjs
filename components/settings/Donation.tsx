@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import DonateButton from './DonateButton'
 
+// Componente para o botão de doação
 export default function Donation() {
   const [open, setOpen] = useState<string | null>(null)
 
@@ -17,7 +18,7 @@ export default function Donation() {
         <div className="space-y-6 justify-text p-2">
           <div className=" mx-auto">
             <Image
-              src="/images/svg/fish-guy.png"
+              src="/images/used/fish-guy.png"
               alt="Figura ilustrativa de um ancião"
               width={300}
               height={635}

@@ -1,23 +1,25 @@
-// NavItemRenderer.tsx
 'use client'
+
 import Link from 'next/link'
 import { NavItem } from './types'
 import { usePathname } from 'next/navigation'
 
+interface NavItemRendererProps {
+  item: NavItem
+  onLinkClick?: () => void
+}
+
 export default function NavItemRenderer({
   item,
   onLinkClick,
-}: {
-  item: NavItem
-  onLinkClick?: () => void
-}) {
+}: NavItemRendererProps) {
   const pathname = usePathname()
 
+  // ✅ Type narrowing baseado no type
   if (item.type === 'link') {
     const isActive =
       pathname === item.href ||
       (item.href !== '/' && pathname.startsWith(item.href))
-
     return (
       <Link
         key={item.href}
@@ -34,6 +36,7 @@ export default function NavItemRenderer({
     )
   }
 
+  // ActionItem
   return (
     <button
       key={item.label}

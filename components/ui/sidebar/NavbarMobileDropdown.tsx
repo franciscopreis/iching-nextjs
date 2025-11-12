@@ -19,7 +19,7 @@ export default function NavbarMobileDropdown({
         </label>
         <select
           id="tab-select"
-          className="w-full max-w-xl p-2 border rounded text-center dark:bg-stone-900 dark:text-gray-200"
+          className="w-full max-w-xl p-2 border rounded text-center dark:bg-stone-900 dark:text-gray-200 opacity-100"
           value={pathname}
           onChange={(e) => (window.location.href = e.target.value)}
         >

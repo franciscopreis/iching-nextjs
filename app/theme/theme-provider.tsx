@@ -3,6 +3,7 @@ import {
   ThemeProviderProps,
 } from 'next-themes'
 
+// Tema do site
 export default function ThemeProvider({
   children,
   ...props

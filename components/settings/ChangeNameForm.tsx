@@ -8,6 +8,8 @@ import Button from '../ui/button/Button'
 import { useAuth } from '@/context/AuthContext'
 import { useEffect } from 'react'
 
+// Form para mudar o nome
+// Com useActionState
 export default function ChangeNameForm() {
   const { refreshAuth } = useAuth()
   const [state, formAction, isPending] = useActionState(changeNameAction, {
@@ -15,7 +17,6 @@ export default function ChangeNameForm() {
     error: '',
   })
 
-  // Quando a ação for bem-sucedida, atualiza o AuthProvider
   useEffect(() => {
     if (state.success) {
       refreshAuth()

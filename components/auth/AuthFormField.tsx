@@ -1,5 +1,3 @@
-'use client'
-
 type FormFieldProps = {
   id: string
   name?: string

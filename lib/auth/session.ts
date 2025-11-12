@@ -1,22 +1,9 @@
 'use server'
 
-import crypto from 'crypto'
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
-
-export type CurrentUser = {
-  id: number
-  email: string
-  name: string
-  emailVerified: boolean
-} | null
-
-type SessionPayload = {
-  userId: number
-  email: string
-  name?: string
-  emailVerified?: boolean
-}
+import type { CurrentUser } from './authTypes'
+import type { SessionPayload } from './authTypes'
 
 const SESSION_DURATION = '7d'
 const MAX_AGE = 60 * 60 * 24 * 7 // 7 dias

@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import AccordionItem from '../ui/AccordionItem'
 
+// Faq
 export default function Faq() {
   const faqs = [
     {

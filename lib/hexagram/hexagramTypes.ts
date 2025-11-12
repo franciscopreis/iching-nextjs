@@ -1,4 +1,3 @@
-// === DB Row e Objeto Hexagrama ===
 export type HexagramRow = {
   number: number
   name_en: string
@@ -30,18 +29,19 @@ export type HexagramObject = {
   details?: HexagramDetails
 }
 
-// Props para componentes
-export type HexagramCardProps = {
-  title: string
-  hexagram: HexagramObject | null
-}
+export type LayoutMode = 'stacked' | 'horizontal' | 'vertical'
 
-export type HexagramDisplayProps = {
+export type HexagramComponentProps = {
   hexagrams: { match1: HexagramObject; match2: HexagramObject }
+  layout: LayoutMode
   notes: string
   setNotes: (value: string) => void
   onSave: () => void
-  layout: 'stacked' | 'horizontal' | 'vertical'
+}
+
+export type HexagramCardProps = {
+  title: string
+  hexagram: HexagramObject | null
 }
 
 export type HexagramDetailsProps = {
@@ -78,12 +78,6 @@ export type ResponsiveHexagramLayoutProps = {
   trigrams?: string[]
 }
 
-export type HexagramLayoutProps = {
-  hexagrams: { match1: HexagramObject; match2: HexagramObject }
-  layout: 'stacked' | 'horizontal' | 'vertical'
-}
-
-// Tipos para binários / match
 export type BinaryMatchInput = {
   binary1: string
   binary2: string
@@ -95,12 +89,10 @@ export type BinaryMatchHexagramRawOutput = {
   hexagramRaw: string
 }
 
-export type LayoutMode = 'stacked' | 'horizontal' | 'vertical'
-
 export type Line = {
-  tosses: number[] // Array de 3 números, cada um 2 (coroa) ou 3 (cara)
-  sum: number // Soma das 3 moedas, valor entre 6 e 9
-  symbol: string // Símbolo visual do hexagrama ('━━o━━', '━━━━━', etc.)
+  tosses: number[]
+  sum: number
+  symbol: string
 }
 
 export type HexagramLineItemProps = {
@@ -108,4 +100,15 @@ export type HexagramLineItemProps = {
   texts: string[]
   isOpen: boolean
   toggle: () => void
+}
+
+export type HexagramDetailsSymbolProps = {
+  number: number
+  unicode: string
+  title?: string
+  name?: string
+}
+
+export type HexagramLinesProps = {
+  lines: string[][]
 }

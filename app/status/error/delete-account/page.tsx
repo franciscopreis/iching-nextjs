@@ -1,8 +1,7 @@
-// app/status/error/delete-account/page.tsx
-import { AlertTriangle, Settings, Home } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// Página de erro ao apagar a conta
 export default function DeleteAccountError() {
   return (
     <div className="text-center space-y-6 px-5">
@@ -10,11 +9,10 @@ export default function DeleteAccountError() {
         <h1 className="md:text-3xl text-2xl font-bold ">
           Erro a apagar a conta
         </h1>
-        {/* <AlertTriangle className="flex w-8 h-8" /> */}
       </div>
       <div className="relative w-full max-w-md aspect-square overflow-hidden rounded-lg justify-center items-center mx-auto">
         <Image
-          src="/images/new/dog.svg"
+          src="/images/used/dog.svg"
           alt="Descrição da imagem"
           fill
           className="object-cover transition duration-300 dark:invert"

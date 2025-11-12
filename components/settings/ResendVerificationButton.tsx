@@ -8,7 +8,8 @@ type Props = {
   userId: number
   emailVerified?: boolean
 }
-
+// Reenvia email de verificação
+// POST /api/settings/resend-verification
 export default function ResendVerificationButton({
   userId,
   emailVerified,

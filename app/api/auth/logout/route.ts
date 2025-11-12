@@ -1,6 +1,3 @@
-// Revisto 07/11/2025
-// Funcional, runtime em node.js foi removido por não ser preciso
-
 import { successResponse } from '@/lib/utils/responses'
 import { setSession } from '@/lib/auth/session'
 

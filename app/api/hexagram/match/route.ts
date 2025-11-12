@@ -2,7 +2,7 @@
 // Eventualmente passar tudo para Turso e remover runtime
 export const runtime = 'nodejs'
 
-import { validateBinaryMatch } from '@/lib/hexagram/helpers'
+import { validateBinaryMatch } from '@/lib/hexagram/hexagramHelpers'
 import { getMatchingHexagrams } from '@/lib/hexagram/hexagramServices'
 import { successResponse, errorResponse } from '@/lib/utils/responses'
 

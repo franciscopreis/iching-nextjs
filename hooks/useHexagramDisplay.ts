@@ -12,16 +12,13 @@ import {
 import { getLineSymbol } from '@/lib/divinationMethods/coinMethodLogic/getLineSymbol'
 import { useReading } from '@/context/ReadingContext'
 
-const generateLine = () => {
-  const tosses = [simulateCoinToss(), simulateCoinToss(), simulateCoinToss()]
-  const sum = tosses.reduce((a, b) => a + b, 0)
-  const symbol = getLineSymbol(sum)
-  return { tosses, sum, symbol }
-}
-
-const generateHexagramLines = () =>
-  Array.from({ length: 6 }, () => generateLine())
-
+/**
+ * Hook responsável por gerir a geração e exibição de hexagramas
+ * - Gera linhas (lançamento de moedas)
+ * - Obtém hexagramas correspondentes via API
+ * - Atualiza contexto de leitura
+ * - Permite guardar leituras
+ */
 export function useHexagramDisplay() {
   const {
     question,
@@ -36,9 +33,17 @@ export function useHexagramDisplay() {
   } = useReading()
 
   const [error, setError] = useState<string | null>(null)
-  const [hexagramRaw, setHexagramRaw] = useState<string | null>(null)
-
   const { handleSave } = useHexagramSaver({ hexagrams, question, notes })
+
+  const generateLine = () => {
+    const tosses = [simulateCoinToss(), simulateCoinToss(), simulateCoinToss()]
+    const sum = tosses.reduce((a, b) => a + b, 0)
+    const symbol = getLineSymbol(sum)
+    return { tosses, sum, symbol }
+  }
+
+  const generateHexagramLines = () =>
+    Array.from({ length: 6 }, () => generateLine())
 
   const handleGenerate = async () => {
     if (!question.trim()) {
@@ -71,7 +76,6 @@ export function useHexagramDisplay() {
       }
 
       setHexagrams(parsedHexagrams)
-      setHexagramRaw(hexagramRaw)
       setError(null)
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erro desconhecido'
@@ -87,7 +91,6 @@ export function useHexagramDisplay() {
     setNotes,
     lines,
     hexagrams,
-    hexagramRaw,
     error,
     handleGenerate,
     handleSave,

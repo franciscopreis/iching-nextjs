@@ -7,6 +7,7 @@ import { SymbolBlock } from './SymbolBlock'
 import type { ReadingLogsProps } from '@/lib/readings/readingsTypes'
 import { buildSafeLines } from '@/lib/readings/readingUtils'
 
+// Logs de leitura
 export default function ReadingLogs({
   lines,
   hexagramRaw,
@@ -20,11 +21,12 @@ export default function ReadingLogs({
     [lines, hexagramRaw]
   )
 
+  // Soma das linhas (equivalente ao hexagramRaw, quando existe)
   const sumsSequence = safeLines.map((l) => l.sum).join('')
 
   return (
     <AccordionItem title={title} isOpen={open} onToggle={() => setOpen(!open)}>
-      <div className="flex lg:flex-row flex-col justify-around items-center w-full space-y-2 lg:space-x-0">
+      <div className="flex lg:flex-row flex-col justify-around items-center w-full space-y-2 lg:space-x-0 mx-auto">
         <div className="flex flex-col justify-center items-center font-mono text-center w-fit">
           <p className="text-base">{sumsSequence}</p>
         </div>

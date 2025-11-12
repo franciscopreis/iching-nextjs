@@ -13,17 +13,19 @@ export default function ReadingInput({
   error,
   maxLength = 100,
 }: ReadingInputProps) {
-  const inputRef = useRef<HTMLInputElement | null>(null)
-  const [triggerScroll, setTriggerScroll] = useState(false)
+  const inputRef = useRef<HTMLInputElement | null>(null) // Referência para o input
+  const [triggerScroll, setTriggerScroll] = useState(false) // Disparar scroll
 
+  // Clique no botão
   const handleClick = async () => {
-    await onGenerate() // aguarda a geração
-    setTriggerScroll(true) // sinaliza que podemos scrollar
+    await onGenerate() // Aguarda a geração
+    setTriggerScroll(true) // Sinaliza que podemos scrollar
   }
 
+  // Scroll para o input
   useEffect(() => {
     if (triggerScroll && inputRef.current) {
-      inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }) // Scroll para o input)
       setTriggerScroll(false) // reset
     }
   }, [triggerScroll])
@@ -41,7 +43,7 @@ export default function ReadingInput({
         maxLength={maxLength}
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
-        className="w-full lg:max-w-3xl border rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="w-full max-w-3xl border rounded-md px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
       <div className="w-full lg:max-w-3xl text-right text-sm text-gray-500 mt-0.5 pr-1.5">
         {question.length} / {maxLength}

@@ -1,16 +1,8 @@
-// Revisto 07/11/2025
-// Estilos revistos
-
 'use client'
 
 import { ReactNode } from 'react'
 
-const tabs = [
-  { id: 'history', label: 'História', href: '/blog/history' },
-  { id: 'fundamentos', label: 'Fundamentos', href: '/blog/fundamentos' },
-  { id: 'metodos', label: 'Métodos', href: '/blog/metodos' },
-]
-
+// Layout do blog
 export default function BlogLayout({ children }: { children: ReactNode }) {
   return (
     <main className="flex flex-col items-center p-3   justify-center w-full">

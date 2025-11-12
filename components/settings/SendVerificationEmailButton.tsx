@@ -9,6 +9,8 @@ type Props = {
   emailVerified?: boolean
 }
 
+// Envia email de verificação
+// POST /api/settings/send-verification-email
 export default function SendVerificationButton({
   userId,
   emailVerified,

@@ -3,7 +3,7 @@
 import { hexagramsSequence } from '@/data/table/dataTable'
 import { useState, useEffect } from 'react'
 
-// Lista completa de hexagramas Unicode (64)
+// Sucessão dos 64 hexagramas por ordem
 
 export default function SequentialHexagram() {
   const [index, setIndex] = useState(0)
@@ -11,7 +11,7 @@ export default function SequentialHexagram() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % hexagramsSequence.length)
-    }, 1000)
+    }, 1000) // 1 segundo
 
     return () => clearInterval(interval)
   }, [])

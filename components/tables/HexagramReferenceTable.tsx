@@ -16,6 +16,7 @@ import {
   clearHexagramHover,
 } from '@/lib/table/tableHandlers'
 
+// A tabela de referência cruzada com trigramas
 const HexagramReferenceTable: React.FC = () => {
   const {
     selectedHexagram,

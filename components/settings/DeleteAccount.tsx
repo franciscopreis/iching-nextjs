@@ -7,6 +7,8 @@ import { useAuth } from '@/context/AuthContext'
 import { useState } from 'react'
 import SettingsField from './SettingsField'
 
+// Apagar Conta
+// POST /api/settings/delete-account
 export default function DeleteAccount() {
   const router = useRouter()
   const { refreshAuth } = useAuth()

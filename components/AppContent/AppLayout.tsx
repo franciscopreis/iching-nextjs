@@ -1,4 +1,3 @@
-// components/AppContent/AppLayout.tsx
 import AppLayoutServer from './AppLayoutServer'
 import AppContentClient from './AppContentClient'
 

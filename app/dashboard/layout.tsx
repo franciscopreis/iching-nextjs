@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import LayoutContainer from '@/components/ui/layout/LayoutContainer'
 import SidebarWrapper from '@/components/ui/sidebar/SidebarWrapper'
 
+// Links comuns a todos os utilizadores
 const menuLinks = [
   { href: '/dashboard/', label: 'Painel' },
   { href: '/dashboard/leituras', label: 'Nova leitura' },
@@ -10,6 +11,7 @@ const menuLinks = [
   { href: '/dashboard/definicoes', label: 'Definições' },
 ]
 
+// Dashboard Layout
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <LayoutContainer>

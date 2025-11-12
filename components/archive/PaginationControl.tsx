@@ -4,7 +4,8 @@ type PaginationControlProps = {
   setPage: (page: number) => void
 }
 
-// Controlo de paginação com botões para navegar entre páginas
+// Paginação com botões para navegar entre páginas
+
 export default function PaginationControl({
   page,
   totalPages,
@@ -15,7 +16,7 @@ export default function PaginationControl({
       <button
         disabled={page === 1}
         onClick={() => setPage(page - 1)}
-        className="cursor-pointer px-3 py-1 rounded disabled:opacity-50 disabled:cursor-default border "
+        className="cursor-pointer px-3 py-1 rounded disabled:opacity-50 disabled:cursor-default border dark:hover:bg-amber-500 hover:bg-amber-500 disabled:hover:bg-transparent"
       >
         Anterior
       </button>
@@ -25,7 +26,7 @@ export default function PaginationControl({
       <button
         disabled={page === totalPages}
         onClick={() => setPage(page + 1)}
-        className="cursor-pointer px-3 py-1 rounded   border disabled:cursor-default"
+        className="cursor-pointer px-3 py-1 rounded   border disabled:cursor-default dark:hover:bg-amber-500 hover:bg-amber-500 disabled:hover:bg-transparent"
       >
         Seguinte
       </button>

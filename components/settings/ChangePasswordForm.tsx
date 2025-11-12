@@ -6,6 +6,8 @@ import SettingsFormContainer from './SettingsFormContainer'
 import SettingsField from './SettingsField'
 import Button from '@/components/ui/button/Button'
 
+// Form para mudar a password
+// Com useActionState
 export default function ChangePasswordForm() {
   const [state, formAction, isPending] = useActionState(changePasswordAction, {
     success: false,

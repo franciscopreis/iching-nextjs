@@ -6,6 +6,8 @@ import SettingsFormContainer from './SettingsFormContainer'
 import SettingsField from './SettingsField'
 import Button from '@/components/ui/button/Button'
 
+// Form para contactar o admin
+// Com useActionState
 export default function ContactForm() {
   const [state, formAction, isPending] = useActionState(
     sendContactMessageAction,

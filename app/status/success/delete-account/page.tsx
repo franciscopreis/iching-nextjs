@@ -1,20 +1,18 @@
-// app/status/success/delete-account/page.tsx
-import { CheckCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// Página de sucesso ao apagar a conta
 export default function DeleteAccountSuccess() {
   return (
     <div className="text-center space-y-6 px-5">
       {/* Título */}
       <div className="flex justify-center gap-3">
         <h1 className="md:text-3xl text-2xl font-bold ">Conta eliminada</h1>
-        {/* <CheckCircle className="flex w-8 h-8" /> */}
       </div>
 
       <div className="relative w-full max-w-md aspect-square overflow-hidden rounded-lg justify-center items-center mx-auto">
         <Image
-          src="/images/new/angry-bird.svg"
+          src="/images/used/angry-bird.svg"
           alt="Descrição da imagem"
           fill
           className="object-container transition duration-300 dark:invert"

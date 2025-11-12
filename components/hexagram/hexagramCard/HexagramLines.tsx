@@ -3,10 +3,7 @@
 import { useState, useMemo } from 'react'
 import { Plus, Minus } from 'lucide-react'
 import { HexagramLineItem } from './HexagramLineItem'
-
-type HexagramLinesProps = {
-  lines: string[][]
-}
+import type { HexagramLinesProps } from '@/lib/hexagram/hexagramTypes'
 
 export default function HexagramLines({ lines }: HexagramLinesProps) {
   const [linesOpen, setLinesOpen] = useState(false)

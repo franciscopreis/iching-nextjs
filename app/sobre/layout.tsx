@@ -2,12 +2,14 @@ import { ReactNode } from 'react'
 import LayoutContainer from '@/components/ui/layout/LayoutContainer'
 import SidebarWrapper from '@/components/ui/sidebar/SidebarWrapper'
 
+// Links comuns a todos os utilizadores
 const menuLinks = [
   { href: '/sobre/i-ching', label: 'I Ching' },
   { href: '/sobre/projecto', label: 'Projecto' },
   { href: '/sobre/faq', label: 'FAQ' },
 ]
 
+// Sobre Layout
 export default function SobreLayout({ children }: { children: ReactNode }) {
   return (
     <LayoutContainer>

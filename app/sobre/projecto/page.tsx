@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+// Página de projecto
 export default function ProjectPage() {
   return (
     <section className="flex flex-col mx-auto px-5 md:py-8 gap-3">
@@ -100,7 +101,7 @@ export default function ProjectPage() {
         </div>{' '}
         <div className=" lg:px-2 flex flex-col mx-auto py-5 mt-5">
           <Image
-            src="/images/new/swordsman.svg"
+            src="/images/used/swordsman.svg"
             priority
             width={780}
             height={1192}
@@ -141,7 +142,7 @@ export default function ProjectPage() {
         </div>{' '}
         <div className="flex flex-col mx-auto">
           <Image
-            src="/images/new/two-guys.svg"
+            src="/images/used/two-guys.svg"
             width={780}
             height={1192}
             alt="Dois homens sentados no chão a comer"
@@ -157,18 +158,15 @@ export default function ProjectPage() {
           O projecto está disponível no GitHub. Fica à vontade para explorar,
           dar feedback ou contribuir.
         </p>
-        <button
-          aria-label="Ver no GitHub"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 mt-2 px-4 py-2rounded-lg hover:opacity-90 transition-opacity"
-        >
+        <div className="inline-flex items-center gap-2 mt-2 px-4 py-2rounded-lg hover:opacity-90 transition-opacity">
           <a
             className="border rounded-md p-2 hover:text-amber-500"
             href="https://github.com/franciscopreis/eu-chingo-nextjs"
+            aria-label="Ver no GitHub"
           >
             Ver no GitHub
           </a>
-        </button>
+        </div>
       </div>
     </section>
   )

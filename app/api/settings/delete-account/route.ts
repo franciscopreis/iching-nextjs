@@ -5,7 +5,8 @@ import { errorResponse, successResponse } from '@/lib/utils/responses'
 
 import bcrypt from 'bcryptjs'
 
-// Versão mais robusta
+// POST /api/settings/delete-account
+// Apaga a conta do utilizador
 export async function POST(req: NextRequest) {
   try {
     const cookie = req.cookies.get('session')?.value
@@ -15,13 +16,13 @@ export async function POST(req: NextRequest) {
     const { password } = await req.json()
     if (!password) return errorResponse('Password obrigatória', 400)
 
-    // PRIMEIRO busca o usuário pelo ID
+    // Procura o usuário pelo ID
     const dbUser = await db.get('SELECT * FROM users WHERE id = ?', [
       user.userId,
     ])
     if (!dbUser) return errorResponse('Utilizador não encontrado', 404)
 
-    // DEPOIS valida a password
+    // Valida a password
     const match = await bcrypt.compare(password, dbUser.password)
     if (!match) return errorResponse('Password incorreta', 403)
 

@@ -1,7 +1,7 @@
-import YinYangSymbol from '@/public/yin-yang.svg'
 import Link from 'next/link'
 import SequentialHexagram from '../logo/SequentialHexagram'
 
+// Logo com link
 export default function Logo() {
   return (
     <div className="flex items-center gap-1 font-bold lg:text-xl md:text-lg leading-none ">

@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 
+// Tabelas
 const Tabelas = dynamic(() => import('@/components/tables/Tables'), {
   ssr: false, // se não precisa de server-side
 })
@@ -15,7 +16,7 @@ export default function TabelasPage() {
       </div>
       <div className="relative -top-7 w-full h-100 lg:h-[350px] ">
         <Image
-          src="/images/svg/dragon-chop.svg"
+          src="/images/used/dragon-chop.svg"
           alt="Descrição da imagem"
           fill
           priority

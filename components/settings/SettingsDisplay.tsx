@@ -9,11 +9,11 @@ import DeleteAccount from './DeleteAccount'
 import Donation from './Donation'
 import Image from 'next/image'
 import ChangeNameForm from './ChangeNameForm'
-import SendWelcomeButton from './SendWelcomeButton'
 import { useAuth } from '@/context/AuthContext'
 import { Check, X } from 'lucide-react'
 import ResendVerificationButton from './ResendVerificationButton'
 
+// Componente principal
 export default function SettingsDisplay() {
   const [open, setOpen] = useState<string | null>(null)
   const { user } = useAuth()
@@ -47,7 +47,7 @@ export default function SettingsDisplay() {
       {/* imagem decorativa */}
       <div className="relative w-full -top-3 h-100 lg:h-[350px]">
         <Image
-          src="/images/svg/lady-png.svg"
+          src="/images/used/lady-png.svg"
           alt="Imagem decorativa"
           fill
           className="object-contain w-full h-full p-0 hover:scale-105 transform dark:invert"

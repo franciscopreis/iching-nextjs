@@ -1,8 +1,7 @@
-// app/status/error/verify-email/page.tsx
-import { XCircle, RefreshCw } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// Página de erro ao verificar o email
 export default function VerifyEmailError() {
   return (
     <div className="text-center space-y-6 px-5">
@@ -13,7 +12,7 @@ export default function VerifyEmailError() {
       </div>
       <div className="relative w-full max-w-md aspect-square overflow-hidden rounded-lg justify-center items-center mx-auto">
         <Image
-          src="/images/new/chicken.svg"
+          src="/images/used/goat.svg"
           alt="Descrição da imagem"
           fill
           className="object-cover transition duration-300 dark:invert"

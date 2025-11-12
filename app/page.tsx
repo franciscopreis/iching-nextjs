@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
+// Página inicial
 export default function Home() {
   return (
     <main className="page-content mt-5 lg:mt-0">
@@ -22,7 +23,7 @@ export default function Home() {
             <Link href="tutorial">
               <div className="flex w-32 h-85 lg:w-50 lg:h-137 relative overflow-hidden rounded-lg">
                 <Image
-                  src="/images/svg/human.svg"
+                  src="/images/used/human.svg"
                   alt="Descrição da imagem"
                   fill
                   priority
@@ -33,7 +34,7 @@ export default function Home() {
             <Link href="tutorial">
               <div className="flex w-32 h-85 lg:w-50 lg:h-137 relative overflow-hidden rounded-lg  -scale-x-100">
                 <Image
-                  src="/images/svg/human.svg"
+                  src="/images/used/human.svg"
                   alt="Descrição da imagem"
                   fill
                   priority

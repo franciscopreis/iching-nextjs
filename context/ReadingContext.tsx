@@ -13,24 +13,13 @@ import type {
   BinaryMatchHexagramRawOutput,
 } from '@/lib/hexagram/hexagramTypes'
 import { useAuth } from './AuthContext'
-
-interface ReadingContextType {
-  question: string
-  setQuestion: (question: string) => void
-  notes: string
-  setNotes: (notes: string) => void
-  lines: Line[] | null
-  setLines: (lines: Line[] | null) => void
-  hexagrams: BinaryMatchHexagramRawOutput | null
-  setHexagrams: (hexagrams: BinaryMatchHexagramRawOutput | null) => void
-  clearReading: () => void
-  saveToLocalStorageNow: () => void
-}
+import type { ReadingContextType } from '@/lib/readings/readingsTypes'
 
 const ReadingContext = createContext<ReadingContextType | undefined>(undefined)
 
 export function ReadingProvider({ children }: { children: ReactNode }) {
   const { isAuthenticated, loading } = useAuth()
+
   const [question, setQuestion] = useState('')
   const [notes, setNotes] = useState('')
   const [lines, setLines] = useState<Line[] | null>(null)
@@ -38,7 +27,7 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
     useState<BinaryMatchHexagramRawOutput | null>(null)
   const [hydrated, setHydrated] = useState(false)
 
-  // Hidratar do localStorage (apenas guest)
+  // Hidratação inicial (apenas para guests)
   useEffect(() => {
     if (loading || isAuthenticated) {
       setHydrated(true)
@@ -60,13 +49,13 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
     }
   }, [isAuthenticated, loading])
 
-  // Persistência automática (só para guest)
+  // Persistência automática (só para guests)
   useEffect(() => {
     if (!hydrated || loading || isAuthenticated) return
 
     const hasData =
-      (question && question.trim() !== '') ||
-      (notes && notes.trim() !== '') ||
+      question.trim() !== '' ||
+      notes.trim() !== '' ||
       (lines && lines.length > 0) ||
       !!hexagrams
 
@@ -84,7 +73,7 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
     }
   }, [hydrated, loading, isAuthenticated, question, notes, lines, hexagrams])
 
-  // Grava imediata (antes de redirect/login)
+  // Gravação imediata antes de redirect/login
   const saveToLocalStorageNow = useCallback(() => {
     if (isAuthenticated) return // não gravar para user logado
     try {
@@ -96,7 +85,7 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
     }
   }, [question, notes, lines, hexagrams, isAuthenticated])
 
-  // Limpa tudo
+  // Limpa leitura e localStorage
   const clearReading = useCallback(() => {
     setQuestion('')
     setNotes('')
@@ -105,11 +94,9 @@ export function ReadingProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('guestReading')
   }, [])
 
-  // Limpar automaticamente ao logar
+  // Limpa automaticamente ao logar
   useEffect(() => {
-    if (isAuthenticated) {
-      clearReading()
-    }
+    if (isAuthenticated) clearReading()
   }, [isAuthenticated, clearReading])
 
   return (

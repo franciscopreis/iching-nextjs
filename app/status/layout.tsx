@@ -1,4 +1,4 @@
-// app/status/layout.tsx
+// Layout do status
 export default function StatusLayout({
   children,
 }: {

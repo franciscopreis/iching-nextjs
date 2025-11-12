@@ -12,6 +12,7 @@ type SettingsFieldProps = {
   disabled?: boolean
 }
 
+// Componente de campo de formulário reutilizável
 export default function SettingsField({
   name,
   type = 'text',

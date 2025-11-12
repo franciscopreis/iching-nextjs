@@ -2,29 +2,30 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 export default function IChingPage() {
-  interface GridItem {
+  type GridItem = {
     title: string
     imageSrc: string
     buttonText: string
     href: string
   }
 
+  // Itens da grid
   const items: GridItem[] = [
     {
       title: '',
-      imageSrc: '/images/new/flying-bird-3.svg',
+      imageSrc: '/images/used/flying-bird-3.svg',
       buttonText: 'Experimenta',
       href: '/tutorial',
     },
     {
       title: '',
-      imageSrc: '/images/new/flying-bird-2.svg',
+      imageSrc: '/images/used/flying-bird-2.svg',
       buttonText: 'Explora',
       href: '/blog',
     },
     {
       title: '',
-      imageSrc: '/images/new/flying-bird.svg',
+      imageSrc: '/images/used/flying-bird.svg',
       buttonText: 'Regista-te',
       href: '/registo',
     },

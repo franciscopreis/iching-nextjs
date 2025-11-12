@@ -1,5 +1,6 @@
 import type { HexagramObject } from '@/lib/hexagram/hexagramTypes'
 
+// Click na tabela
 export async function handleHexagramClick(
   hexagramNumber: { number: number },
   setSelectedHexagram: (hex: HexagramObject | null) => void
@@ -19,6 +20,7 @@ export async function handleHexagramClick(
   }
 }
 
+// Hover na tabela
 export async function handleHexagramHover(
   hexagram: { number: number },
   setHoveredHexagram: (hexagram: HexagramObject | null) => void

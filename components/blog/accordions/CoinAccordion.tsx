@@ -1,4 +1,3 @@
-// components/methods/CoinAccordion.tsx
 'use client'
 import { useState } from 'react'
 import AccordionItem from '@/components/ui/AccordionItem'

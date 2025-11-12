@@ -1,47 +1,26 @@
 'use client'
 
-import Link from 'next/link'
-import { useRouter, usePathname } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
+import { useRouter } from 'next/navigation'
+import NavItemRenderer from './NavItemRenderer'
+import { NavItem } from './types'
 
-// ------------------------
-// Tipos
-// ------------------------
-type LinkItem = { type: 'link'; href: string; label: string }
-type ActionItem = { type: 'action'; label: string; onClick: () => void }
-type NavItem = LinkItem | ActionItem
+interface NavbarLinksProps {
+  onLinkClick?: () => void
+}
 
-// ------------------------
-// Links base
-// ------------------------
-const baseLinks: LinkItem[] = [
+// Links comuns
+const baseLinks: NavItem[] = [
   { type: 'link', href: '/', label: 'Início' },
   { type: 'link', href: '/sobre/i-ching', label: 'Sobre' },
   { type: 'link', href: '/blog', label: 'Blog' },
 ]
 
-// ------------------------
-// NavbarLinks Component
-// ------------------------
-interface NavbarLinksProps {
-  onLinkClick?: () => void
-}
-
 export default function NavbarLinks({ onLinkClick }: NavbarLinksProps) {
-  const router = useRouter()
-  const pathname = usePathname()
   const { isAuthenticated, refreshAuth } = useAuth()
+  const router = useRouter()
 
-  console.log(
-    '🔍 NavbarLinks - isAuthenticated:',
-    isAuthenticated,
-    'pathname:',
-    pathname
-  )
-
-  // ------------------------
-  // Função de Logout
-  // ------------------------
+  // Logout handler
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' })
     refreshAuth()
@@ -49,63 +28,28 @@ export default function NavbarLinks({ onLinkClick }: NavbarLinksProps) {
     onLinkClick?.()
   }
 
-  // ------------------------
-  // Links por autenticação
-  // ------------------------
-  const authNavLinks: NavItem[] = [
-    { type: 'link', href: '/dashboard', label: 'Painel' },
-    { type: 'action', label: 'Logout', onClick: handleLogout },
-  ]
+  // Links auth / not auth
+  const authLinks: NavItem[] = isAuthenticated
+    ? [
+        { type: 'link', href: '/dashboard', label: 'Painel' },
+        { type: 'action', label: 'Logout', onClick: handleLogout },
+      ]
+    : [
+        { type: 'link', href: '/login', label: 'Login' },
+        { type: 'link', href: '/registo', label: 'Registo' },
+      ]
 
-  const notAuthNavLinks: NavItem[] = [
-    { type: 'link', href: '/login', label: 'Login' },
-    { type: 'link', href: '/registo', label: 'Registo' },
-  ]
-
-  // ------------------------
-  // Renderiza cada NavItem
-  // ------------------------
-  const renderNavItem = (item: NavItem) => {
-    if (item.type === 'link') {
-      const isActive =
-        pathname === item.href ||
-        (item.href !== '/' && pathname.startsWith(item.href))
-
-      return (
-        <Link
-          key={item.href}
-          href={item.href}
-          onClick={onLinkClick}
-          className={`transition tracking-wide cursor-pointer text-md lg:text-lg xl:text-xl 2xl:text-xl ${
-            isActive
-              ? 'text-amber-500 font-semibold'
-              : 'hover:text-amber-500 text-stone-900 dark:text-gray-200'
-          }`}
-        >
-          {item.label}
-        </Link>
-      )
-    }
-
-    // type === 'action'
-    return (
-      <button
-        key={item.label}
-        onClick={item.onClick}
-        className="hover:text-red-500 transition cursor-pointer text-left text-md lg:text-lg xl:text-xl 2xl:text-xl"
-      >
-        {item.label}
-      </button>
-    )
-  }
+  const allLinks = [...baseLinks, ...authLinks]
 
   return (
     <>
-      {/* Links base */}
-      {baseLinks.map(renderNavItem)}
-
-      {/* Links por autenticação */}
-      {(isAuthenticated ? authNavLinks : notAuthNavLinks).map(renderNavItem)}
+      {allLinks.map((item) => (
+        <NavItemRenderer
+          key={item.type === 'link' ? item.href : item.label}
+          item={item}
+          onLinkClick={onLinkClick}
+        />
+      ))}
     </>
   )
 }

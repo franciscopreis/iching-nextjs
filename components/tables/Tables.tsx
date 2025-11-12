@@ -6,6 +6,7 @@ HexagramListTable
 import HexagramListTable from './HexagramListTable'
 import HexagramReferenceTable from './HexagramReferenceTable'
 
+// Tabelas
 const TABLES = [
   {
     key: 'sequencial',
@@ -19,6 +20,7 @@ const TABLES = [
   },
 ]
 
+// Componente principal
 export default function Tables() {
   const [open, setOpen] = useState<string>('')
 

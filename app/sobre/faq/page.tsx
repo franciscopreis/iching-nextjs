@@ -1,18 +1,10 @@
-'use client'
-
 import Faq from '@/components/sobre/Faq'
 import Image from 'next/image'
-import { useState } from 'react'
 
 const FaqPage = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
-  const toggleIndex = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index)
-  }
-
   return (
     <section className="flex flex-col lg:space-x-8 sm:space-x-0 lg:py-8">
-      <h2 className="text-xl md:text-2xl font-bold text-center my-2  lg:mb-5">
+      <h2 className="text-xl md:text-2xl font-bold text-center my-2  lg:mb-5 mx-auto">
         Perguntas e respostas
       </h2>
 
@@ -28,7 +20,7 @@ const FaqPage = () => {
         <div className="lg:w-80 flex justify-center mx-auto">
           <div className="relative w-64 h-96 lg:w-80 lg:h-[500px]">
             <Image
-              src="/images/svg/lady-png.svg"
+              src="/images/used/lady-png.svg"
               alt="Ilustração de uma mulher chinesa a segurar um longo vestido e com o cabelo adornado de flores"
               priority
               fill

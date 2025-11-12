@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Button from '../ui/button/Button'
 
+// Componente para o botão de doação
+// POST /api/settings/donation/create-checkout-session
 export default function DonateButton() {
   const [amount, setAmount] = useState(5)
   const [loading, setLoading] = useState(false)

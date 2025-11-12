@@ -1,8 +1,7 @@
-// app/status/success/verify-email/page.tsx
-import { MailCheck } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
+// Página de sucesso ao verificar o email
 export default function VerifyEmailSuccess() {
   return (
     <div className="text-center space-y-6 px-5">
@@ -13,7 +12,7 @@ export default function VerifyEmailSuccess() {
 
       <div className="relative w-full max-w-md aspect-square overflow-hidden rounded-lg justify-center items-center mx-auto">
         <Image
-          src="/images/new/trigram-dragon-horse.svg"
+          src="/images/used/trigram-dragon-horse.svg"
           alt="Descrição da imagem"
           fill
           className="object-container transition duration-300 dark:invert"

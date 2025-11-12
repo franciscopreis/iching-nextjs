@@ -3,30 +3,29 @@
 import { useActionState } from 'react'
 import { registerUser } from '@/lib/auth/authServices'
 import { useAuth } from '@/context/AuthContext'
-import { useRegisterFeedback } from '@/hooks/useAuthFeedback'
+import { useAuthFeedbackPreset } from '@/hooks/useAuthFeedback'
 import { SubmitButton } from '../ui/button/SubmitButton'
 import AuthFormContainer from './AuthFormContainer'
 import AuthFormField from './AuthFormField'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 
 // Formulário de Registo
 export default function RegisterForm() {
-  // Usar useActionState para gerir o estado do formulário de registo
+  // Estado do formulário (controlado via Server Action)
   const [state, registerAction] = useActionState(registerUser, {
     errors: {},
     success: false,
   })
-  // Obter função para atualizar o estado de autenticação
-  const { refreshAuth } = useAuth()
 
-  // Obter router para navegação
+  // Atualização de autenticação global
+  const { refreshAuth } = useAuth()
+  // Navegação
   const router = useRouter()
 
-  // Hook personalizado para feedback de registo
-  useRegisterFeedback(state, refreshAuth, router)
+  // Feedback genérico (antes: useRegisterFeedback)
+  useAuthFeedbackPreset('register', state, refreshAuth, router)
 
   return (
     <main className="flex justify-center px-4 pt-16">
@@ -34,7 +33,7 @@ export default function RegisterForm() {
         <div className="flex mx-auto justify-center flex-col">
           <div className="relative w-full max-w-md aspect-square overflow-hidden rounded-lg">
             <Image
-              src="/images/svg/women.svg"
+              src="/images/used/women.svg"
               alt="Descrição da imagem"
               fill
               className="object-cover object-[10%_70%] transition duration-300 dark:invert"
@@ -50,7 +49,9 @@ export default function RegisterForm() {
             .
           </p>
         </div>
+
         <form action={registerAction} className="space-y-4 w-full">
+          {/* Campos do formulário */}
           <AuthFormField
             id="name"
             name="name"

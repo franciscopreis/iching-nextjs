@@ -11,6 +11,11 @@ interface UseHexagramSaverProps {
   notes: string
 }
 
+/**
+ * Hook para salvar leituras
+ * - POST /api/readings
+ */
+
 export function useHexagramSaver({
   hexagrams,
   question,
@@ -26,7 +31,7 @@ export function useHexagramSaver({
 
     const user = await getCurrentUser()
 
-    // Guest: salva localmente
+    // Guest: guarda localmente
     if (!user?.id) {
       if (readingData && clearCallback) clearCallback()
       localStorage.setItem(
@@ -41,9 +46,7 @@ export function useHexagramSaver({
           }
         )
       )
-      toast.warning(
-        'A leitura foi guardada localmente. Para guardá-la no dashboard, inicia sessão ou regista-te.'
-      )
+
       return
     }
 

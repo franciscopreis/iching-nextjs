@@ -3,8 +3,7 @@ import { useFormStatus } from 'react-dom'
 interface SubmitButtonProps {
   title: string
 }
-// O componente que mostra o botão de submissão do formulário de login
-
+// O componente que mostra o botão de submissão do formulário de login e registo
 export function SubmitButton({ title }: SubmitButtonProps) {
   const { pending } = useFormStatus()
 

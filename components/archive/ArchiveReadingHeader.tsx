@@ -1,7 +1,12 @@
 import { Trash, Minus, Plus, Edit2 } from 'lucide-react'
 import type { ReadingHeaderProps } from '@/lib/readings/readingsTypes'
 
-// Cabeçalho da leitura com pergunta, data, hexagramas e botões (editar e apagar)
+/**
+ * Cabeçalho da leitura no arquivo:
+ * - Informação com pergunta, data e hexagramas
+ * - Botões para editar notas, apagar leitura e expandir/colapsar
+ */
+
 export default function ArchiveReadingHeader({
   question,
   date,

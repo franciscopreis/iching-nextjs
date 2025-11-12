@@ -37,7 +37,7 @@ export default async function BlogPostPage({ params }: any) {
 
   return (
     <article className="mx-auto mt-2 prose prose-lg dark:prose-invert text-justify border rounded-2xl px-6 py-6 md:px-8 md:pb-8">
-      {/* 🔹 Header */}
+      {/* Header */}
       <header className="mb-6">
         <div className="flex items-center mb-4">
           <Link

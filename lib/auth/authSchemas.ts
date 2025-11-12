@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+// Schemas
 export const userSchema = z.object({
   id: z.number(),
   email: z.string().email(),

@@ -46,8 +46,8 @@ export default function BlogGrid({
       {filteredPosts.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-gray-500 mt-10 ">
           <Image
-            src="/images/new/pig.svg"
-            alt="Ilustração de um tigre"
+            src="/images/used/pig.svg"
+            alt="Ilustração de um porco"
             fill
             className="object-contain w-full h-full max-w-100 p-0 transform transition-transform duration-300 hover:scale-105 dark:invert mx-auto"
           />

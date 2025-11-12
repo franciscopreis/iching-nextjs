@@ -7,12 +7,13 @@ import Button from '@/components/ui/button/Button'
 import Swal from 'sweetalert2'
 import { useReading } from '@/context/ReadingContext'
 
-// Componente do botão de guardar leitura
+// Componente de botão para guardar a leitura
 export default function SaveReadingButton({ onSave }: { onSave: () => void }) {
-  const [user, setUser] = useState<{ id: number; email: string } | null>(null)
+  const [user, setUser] = useState<{ id: number; email: string } | null>(null) // estado do current user
   const router = useRouter() // hook do router
   const { saveToLocalStorageNow, clearReading } = useReading() // hook da leitura
 
+  // Procura o user ao montar o componente
   useEffect(() => {
     async function fetchUser() {
       const u = await getCurrentUser()
@@ -21,11 +22,11 @@ export default function SaveReadingButton({ onSave }: { onSave: () => void }) {
     fetchUser()
   }, [])
 
+  // Função de clique no botão
+
   const handleClick = async () => {
     if (!user) {
-      // Atualiza o estado da leitura
-      console.log('handleClick disparado')
-      console.log('Usuário não logado, salvando no localStorage...')
+      // Se não há user logado, salva a leitura no localStorage
       onSave()
 
       // Delay para garantir que o estado React atualizou

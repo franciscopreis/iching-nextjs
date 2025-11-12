@@ -5,41 +5,25 @@ import dynamic from 'next/dynamic'
 import ModeSelector from './ModeSelector'
 import HexagramGrid from '../hexagram/HexagramGrid'
 import ReadingLogs from './readingLogs/ReadingLogs'
-import ReadingInput from './ReadingInput'
-import type { ReadingType } from '@/lib/readings/readingsTypes'
-import type { HexagramObject } from '@/lib/hexagram/hexagramTypes'
 import { useState } from 'react'
+import type {
+  ReadingSessionProps,
+  HexagramsType,
+  LineType,
+} from '@/lib/readings/readingsTypes'
 
-const ReadingNotes = dynamic(() => import('../archive/ReadingNotes'), {
+const ReadingNotes = dynamic(() => import('./ReadingNotes'), {
   ssr: false,
 })
 
-export type HexagramsType = {
-  match1: HexagramObject
-  match2: HexagramObject
-  hexagramRaw: string
-}
-
-export type LineType = any
-
-export type ReadingSessionProps = {
-  reading?: ReadingType
-  question?: string
-  hexagrams?: HexagramsType
-  lines?: LineType[] | null
-  notes: string
-  setNotes: (value: string) => void
-  onSave?: () => void
-  layout?: 'stacked' | 'horizontal' | 'vertical'
-  isEditing?: boolean
-  showInput?: boolean
-  isArchive?: boolean
-  showModeSelector?: boolean // nova prop
-}
+// ReadingSession é o componente funcional associado a leituras (novas ou de arquivo) e gere:
+// - ReadingLogs
+// - ModeSelector
+// - HexagramGrid
+// - ReadingNotes
 
 export default function ReadingSession({
   reading,
-  question,
   hexagrams,
   lines,
   notes,
@@ -47,8 +31,6 @@ export default function ReadingSession({
   onSave,
   layout: initialLayout = 'horizontal',
   isEditing = false,
-  showInput = false,
-  isArchive = false,
   showModeSelector = true,
 }: ReadingSessionProps) {
   const [layout, setLayout] = useState<'stacked' | 'horizontal' | 'vertical'>(
@@ -56,23 +38,23 @@ export default function ReadingSession({
   )
   const isVertical = layout === 'vertical'
 
+  // Criamos o objeto HexagramsType a partir do reading ou do prop hexagrams
   const displayHexagrams: HexagramsType | undefined =
     hexagrams ||
-    (reading?.hexagrams
-      ? reading.hexagrams
-      : reading?.originalHexagram && reading?.mutantHexagram
-        ? {
-            match1: reading.originalHexagram,
-            match2: reading.mutantHexagram,
-            hexagramRaw: '',
-          }
-        : undefined)
+    (reading?.originalHexagram && reading?.mutantHexagram
+      ? {
+          match1: reading.originalHexagram,
+          match2: reading.mutantHexagram,
+          hexagramRaw: reading.hexagramRaw ?? '',
+        }
+      : undefined)
 
-  const displayLines = lines || reading?.lines
-  const displayHexRaw = displayHexagrams?.hexagramRaw || ''
+  // Linhas são usadas apenas se existem (ReadingDisplay), senão usamos hexagramRaw (Archive)
+  const displayLines: LineType[] | undefined = lines ?? reading?.lines
+  const displayHexRaw: string = displayHexagrams?.hexagramRaw ?? ''
 
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className="w-full max-w-3xl flex flex-col gap-6">
       {(displayLines || displayHexRaw) && (
         <ReadingLogs lines={displayLines} hexagramRaw={displayHexRaw} />
       )}
@@ -90,7 +72,13 @@ export default function ReadingSession({
       >
         <div className="flex-1 min-w-[50%] w-full transition-all duration-300 lg:max-h-[80vh] overflow-auto">
           {displayHexagrams && (
-            <HexagramGrid hexagrams={displayHexagrams} layout={layout} />
+            <HexagramGrid
+              hexagrams={displayHexagrams}
+              layout={layout}
+              notes={notes}
+              setNotes={setNotes}
+              onSave={onSave ?? (() => {})}
+            />
           )}
         </div>
 

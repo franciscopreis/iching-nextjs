@@ -1,7 +1,6 @@
 import { ReadingRow, ReadingView } from '@/lib/readings/readingsTypes'
 import { getHexagramByBinary } from '@/lib/hexagram/hexagramServices'
 import { ReadingInputSchema } from '@/lib/hexagram/hexagramSchemas'
-import { Line } from '../hexagram/hexagramTypes'
 
 // Validação de input da leitura
 export function validateReadingInput(payload: unknown) {

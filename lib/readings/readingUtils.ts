@@ -1,4 +1,3 @@
-// lib/readings/buildSafeLines.ts
 import type { Line } from '@/lib/hexagram/hexagramTypes'
 
 const SYMBOLS: Record<number, string> = {
@@ -9,9 +8,10 @@ const SYMBOLS: Record<number, string> = {
 }
 
 export function buildSafeLines(lines?: Line[], hexagramRaw?: string): Line[] {
-  if (lines?.length === 6) return lines
-  if (!hexagramRaw) return []
+  if (lines?.length === 6) return lines // ReadingDisplay usa as linhas e os tosses
+  if (!hexagramRaw) return [] //
 
+  // ArchiveReadingItem cria linhas com sum + symbol (tosses ficam vazios)
   return hexagramRaw.split('').map((v) => {
     const sum = Number(v)
     return {

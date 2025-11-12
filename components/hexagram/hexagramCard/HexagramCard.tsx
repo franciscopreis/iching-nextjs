@@ -1,5 +1,3 @@
-'use client'
-
 import HexagramDetailsSymbol from './HexagramDetailsSymbol'
 import HexagramDetails from './HexagramDetailsText'
 import HexagramLines from './HexagramLines'

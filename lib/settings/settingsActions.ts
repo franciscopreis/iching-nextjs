@@ -10,6 +10,7 @@ import {
   changeNameService,
 } from '@/lib/settings/settingsServices'
 
+// Action para mudar email
 export async function changeEmailAction(
   _prevState: SettingsChangeType,
   formData: FormData
@@ -27,7 +28,7 @@ export async function changeEmailAction(
     return { success: false, error: err.message || 'Erro ao atualizar email' }
   }
 }
-
+// Action para mudar password
 export async function changePasswordAction(
   _prevState: SettingsChangeType,
   formData: FormData
@@ -52,7 +53,7 @@ export async function changePasswordAction(
     }
   }
 }
-
+// Action para enviar mensagem
 export async function sendContactMessageAction(
   _prevState: SettingsChangeType,
   formData: FormData
@@ -84,28 +85,9 @@ export async function sendContactMessageAction(
   }
 }
 
-export async function deleteAccountAction(
-  _prevState: SettingsChangeType,
-  _payload?: unknown
-): Promise<SettingsChangeType> {
-  const user = await getCurrentUser()
-  if (!user) return { success: false, error: 'Não autenticado' }
-
-  try {
-    await deleteAccountService(user.id)
-    await setSession('')
-    return { success: true }
-  } catch (err: any) {
-    return { success: false, error: err.message || 'Erro ao apagar conta' }
-  }
-}
-
 /**
- * NOVA ACTION: alterar nome
- *
- * Recebe formData com:
- * - newName
- * - password (confirmação)
+ * Action para alterar nome
+
  */
 export async function changeNameAction(
   _prevState: SettingsChangeType,
@@ -123,7 +105,7 @@ export async function changeNameAction(
     // Atualiza o nome na base de dados
     await changeNameService(user.id, newName, password)
 
-    // 🔑 Reemitir JWT com o novo nome
+    // JWT com o novo nome
     const { encrypt, setSession } = await import('@/lib/auth/session')
     const token = await encrypt({
       userId: user.id,

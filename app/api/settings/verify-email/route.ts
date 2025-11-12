@@ -2,6 +2,8 @@ import { verifyEmailService } from '@/lib/settings/settingsServices'
 import { errorResponse } from '@/lib/utils/responses'
 import { NextRequest, NextResponse } from 'next/server'
 
+// GET /api/settings/verify-email
+// Verifica o email do utilizador
 export async function GET(req: NextRequest) {
   try {
     const token = req.nextUrl.searchParams.get('token')

@@ -1,9 +1,9 @@
 'use client'
 
-import { useActionState, useEffect } from 'react'
+import { useActionState } from 'react'
 import { loginUser } from '@/lib/auth/authServices'
 import { useAuth } from '@/context/AuthContext'
-import { useLoginFeedback } from '@/hooks/useAuthFeedback'
+import { useAuthFeedbackPreset } from '@/hooks/useAuthFeedback'
 import { SubmitButton } from '../ui/button/SubmitButton'
 import AuthFormContainer from './AuthFormContainer'
 import AuthFormField from './AuthFormField'
@@ -13,19 +13,19 @@ import { useRouter } from 'next/navigation'
 
 // Formulário de Login
 export default function LoginForm() {
-  // Usar useActionState para gerir o estado do formulário de login
+  // Estado do formulário (controlado via Server Action)
   const [state, loginAction] = useActionState(loginUser, {
     errors: {},
     success: false,
   })
-  // Obter função para atualizar o estado de autenticação
 
+  // Atualização de autenticação global
   const { refreshAuth } = useAuth()
-  // Obter router para navegação
+  // Navegação
   const router = useRouter()
 
-  // Hook personalizado para feedback de login
-  useLoginFeedback(state, refreshAuth, router)
+  // Feedback genérico
+  useAuthFeedbackPreset('login', state, refreshAuth, router)
 
   return (
     <main className="flex justify-center px-4 pt-16 flex-col">
@@ -34,7 +34,7 @@ export default function LoginForm() {
           <div className="flex mx-auto justify-center flex-col">
             <div className="relative w-full max-w-md aspect-6/5 overflow-hidden rounded-lg">
               <Image
-                src="/images/svg/group.svg"
+                src="/images/used/group.svg"
                 alt="Descrição da imagem"
                 fill
                 className="object-cover object-[10%_70%] transition duration-300 dark:invert"
@@ -50,6 +50,8 @@ export default function LoginForm() {
               .
             </p>
           </div>
+
+          {/* Campos do formulário */}
           <AuthFormField
             id="email"
             label="Email"
@@ -65,6 +67,7 @@ export default function LoginForm() {
             placeholder="Mínimo 6 caracteres"
             errors={state.errors?.password ?? []}
           />
+
           <div className="pt-4">
             <SubmitButton title="Entrar" />
           </div>

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+// Página de dashboard
 export default function DashboardPage() {
   return (
     <main className="main-dashboard">
@@ -16,7 +17,7 @@ export default function DashboardPage() {
             {/* Imagem de fundo */}
             <div className="flex md:w-55 md:h-55 w-64 h-64 top-5 relative overflow-hidden rounded-lg group">
               <Image
-                src="/images/svg/snake-crop.png" // caminho da imagem
+                src="/images/used/snake-crop.png"
                 alt="Descrição da imagem"
                 fill
                 className="filter dark:invert w-full h-auto group-hover:scale-75 scale-70"
@@ -35,14 +36,14 @@ export default function DashboardPage() {
             <div className="flex md:w-55 md:h-55 w-64 h-64 relative overflow-hidden rounded-lg group">
               {/* Imagem de fundo */}
               <Image
-                src="/images/svg/tiger.svg" // caminho da imagem
+                src="/images/used/tiger.svg"
                 alt="Descrição da imagem"
-                fill // faz a imagem preencher o container
+                fill
                 className="filter dark:invert w-full h-auto group-hover:scale-105 "
                 style={{
                   objectFit: 'cover',
                   objectPosition: '10% 85%',
-                }} // mantém proporção e cobre o quadrado
+                }}
               />
 
               {/* Texto sobre a imagem */}
@@ -56,15 +57,14 @@ export default function DashboardPage() {
             <div className="flex md:w-55 md:h-55 w-64 h-64 relative overflow-hidden rounded-lg group">
               {/* Imagem de fundo */}
               <Image
-                src="/images/svg/dragon.svg" // caminho da imagem
+                src="/images/used/dragon.svg"
                 alt="Descrição da imagem"
-                fill // faz a imagem preencher o container
+                fill
                 className="filter dark:invert 0 w-full h-auto duration-300 group-hover:scale-105 "
                 style={{
                   objectFit: 'cover',
                   objectPosition: '10% 70%',
                 }}
-                // mantém proporção e cobre o quadrado
               />
               {/* Texto sobre a imagem */}
               <div className="absolute top-8 left-16 flex items-center justify-center bg-transparent text-3xl   font-bold">
@@ -89,7 +89,7 @@ export default function DashboardPage() {
           <div className="flex justify-center mx-auto mt-5">
             {' '}
             <Image
-              src="/images/svg/yinyang_bagua.svg"
+              src="/images/used/yinyang_bagua.svg"
               width={250}
               height={250}
               quality={75}
@@ -99,9 +99,9 @@ export default function DashboardPage() {
             />
           </div>
 
-          <p className="p-caption text-center">
+          {/* <p className="p-caption text-center">
             Uma ilustração do Gujin Tushu Jicheng (1700-1725).
-          </p>
+          </p> */}
         </div>
       </section>
     </main>

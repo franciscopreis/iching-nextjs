@@ -2,11 +2,13 @@ import { useState, useRef, useEffect } from 'react'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 
+// Hook personalizado para gerir notas de leitura com salvamento automático
 export function useReadingNotes(
   readingId: string | number,
   initialNotes: string,
   isOpen: boolean
 ) {
+  // Estados para notas e edição
   const [notes, setNotes] = useState(initialNotes)
   const [isEditing, setIsEditing] = useState(false)
   const wasOpen = useRef(isOpen)
@@ -16,6 +18,8 @@ export function useReadingNotes(
     setNotes(initialNotes)
   }, [initialNotes])
 
+  // Função para guardar notas na base de dados
+  // com PUT para /api/readings/[id]
   const saveNotes = async () => {
     try {
       const res = await fetch(`/api/readings/${readingId}`, {
@@ -41,6 +45,7 @@ export function useReadingNotes(
     }
   }
 
+  // Função para mostrar modal ao fechar se houver alterações
   const showCloseModal = async () => {
     const { isConfirmed } = await Swal.fire({
       title: 'Notas não guardadas!',
@@ -53,6 +58,7 @@ export function useReadingNotes(
     if (isConfirmed) await saveNotes()
   }
 
+  // Atualiza o estado de notas se houver alterações
   useEffect(() => {
     // Só dispara se o item fechou, estava aberto, está em edição e há alterações
     if (

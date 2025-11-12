@@ -9,8 +9,7 @@ export default function AppLayoutServer({
   return (
     <>
       <Header /> {/* Server Component */}
-      <main className="flex-1 mt-10 px-4">{children}</main>{' '}
-      {/* flex-1 preenche espaço restante */}
+      <main className="flex-1 mt-10 px-4">{children}</main>
       <Footer /> {/* Server Component */}
     </>
   )

@@ -1,9 +1,4 @@
-type HexagramDetailsSymbolProps = {
-  number: number
-  unicode: string
-  title?: string
-  name?: string
-}
+import type { HexagramDetailsSymbolProps } from '@/lib/hexagram/hexagramTypes'
 
 // Componente que mostra o símbolo do hexagrama (número, nome, unicode)
 function HexagramDetailsSymbol({

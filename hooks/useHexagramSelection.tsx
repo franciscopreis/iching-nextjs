@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import type { HexagramObject } from '@/lib/hexagram/hexagramTypes'
 
+/**
+ * Hook para gerir selection e hover das tabelas
+ */
 export default function useHexagramSelection() {
   const [selectedHexagram, setSelectedHexagram] =
     useState<HexagramObject | null>(null)

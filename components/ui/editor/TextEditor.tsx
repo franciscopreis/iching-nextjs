@@ -7,27 +7,33 @@ type Props = {
   onChange: (value: string) => void
   placeholder?: string
   maxLength?: number
+  minHeight?: number // altura mínima
   maxHeight?: number // altura máxima
+  isEditing?: boolean
 }
 
+// Componente de editor de texto com ajuste automático de altura
 export default function TextEditor({
   value,
   onChange,
   placeholder,
   maxLength = 8000,
-  maxHeight = 400,
+  minHeight = 100,
+  maxHeight = 300,
+  isEditing = true,
 }: Props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  // Função para ajustar altura
+  // Função para ajustar a altura do textarea
   const adjustHeight = () => {
     const ta = textareaRef.current
     if (!ta) return
     ta.style.height = 'auto' // reset
-    ta.style.height = Math.min(ta.scrollHeight, maxHeight) + 'px'
+    const newHeight = Math.min(Math.max(ta.scrollHeight, minHeight), maxHeight)
+    ta.style.height = newHeight + 'px'
   }
 
-  // Ajusta altura ao montar e sempre que o value muda
+  // Ajusta a altura quando o valor muda
   useEffect(() => {
     adjustHeight()
   }, [value])
@@ -39,12 +45,14 @@ export default function TextEditor({
         value={value}
         maxLength={maxLength}
         onChange={(e) => {
-          if (e.target.value.length <= maxLength) {
-            onChange(e.target.value)
-          }
+          if (!isEditing) return
+          onChange(e.target.value)
         }}
         placeholder={placeholder ?? 'Escreve as tuas notas…'}
-        className="w-full py-2 px-3 border rounded-md placeholder-gray-400 resize-y overflow-hidden"
+        disabled={!isEditing}
+        className="w-full py-2 px-3 border rounded-md placeholder-gray-400 resize-none overflow-hidden
+                   disabled:opacity-50 disabled:cursor-not-allowed"
+        style={{ minHeight: minHeight, maxHeight: maxHeight }}
       />
       <div className="mt-1 pr-1.5 text-sm text-gray-500 text-right">
         {value.length} / {maxLength}

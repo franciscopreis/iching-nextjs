@@ -8,6 +8,8 @@ import Button from '@/components/ui/button/Button'
 import { useAuth } from '@/context/AuthContext'
 import SettingsField from './SettingsField'
 
+// Form para mudar o email
+// Com useActionState
 export default function ChangeEmailForm() {
   const { refreshAuth } = useAuth()
   const [state, formAction, isPending] = useActionState(changeEmailAction, {
